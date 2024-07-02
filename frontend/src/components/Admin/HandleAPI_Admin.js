@@ -62,7 +62,7 @@ export const fetchProducts = async () => {
   }
 
   try {
-    const response = await axios.get(`${BASE_URL}/products`, {
+    const response = await axios.get(`${BASE_URL}/admin/products`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
