@@ -9,6 +9,11 @@ export const fetchProducts = async () => {
   return response.data.payload;
 };
 
+export const fetchImageProducts = async (id_product) => {
+  const response = await axios.get(`${BASE_URL}/products/image/${id_product}`);
+  return response.data.payload;
+};
+
 export const fetchProductsByCategory = async (category) => {
   const response = await axios.get(`${BASE_URL}/products/category/${category}`);
 
