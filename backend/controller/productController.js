@@ -17,6 +17,24 @@ const getAllProduct = async (req, res) => {
   }
 };
 
+const getProductImage = async (req, res) => {
+  const { id_product } = req.params;
+  try {
+    const sql = "SELECT * FROM tbl_image_products WHERE id_product = ?";
+    const [rows, fields] = await db.query(sql, [id_product]);
+    res.json({
+      payload: rows,
+      message: "Success Show Image Product!",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err,
+    });
+  }
+};
+
 const getProductsByCategory = async (req, res) => {
   const { category_name } = req.params;
   try {
@@ -69,6 +87,7 @@ const getSingleProduct = async (req, res) => {
 
 module.exports = {
   getAllProduct,
+  getProductImage,
   getProductsByCategory,
   getSingleProduct,
 };
