@@ -18,7 +18,7 @@ const AllProducts = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8);
+  const [productsPerPage] = useState(15);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +71,7 @@ const AllProducts = () => {
       });
       setProducts(mergedProducts);
     } catch (error) {
-      console.error("Error fetching products for category", error);
+      setProducts([]);
     }
   };
 
@@ -103,11 +103,11 @@ const AllProducts = () => {
       <div className="container-allproduct">
         <div className="row align-items-start">
           <div className="col-12">
-            <h1 className="my-4">All Products</h1>
+            <h1 className="my-4">Semua Produk</h1>
           </div>
           <div className="col-md-2">
             <div className="card-category">
-              <div className="card-header">Category</div>
+              <div className="card-header">Kategori</div>
               <ul className="list-group list-group-flush">
                 <li
                   className={`list-group-item ${
@@ -115,7 +115,7 @@ const AllProducts = () => {
                   }`}
                   onClick={() => handleCategoryClick("")}
                 >
-                  All Products
+                  Semua Produk
                 </li>
                 {categories.map((category) => (
                   <li
@@ -136,56 +136,60 @@ const AllProducts = () => {
           <div className="col-md-10">
             <section id="all-products" className="all-products-section">
               <div id="our-products" className="our-products-section">
-                <div className="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-4">
-                  {currentProducts.map((product) => (
-                    <div className="col" key={product.id_product}>
-                      <div className="card card-product">
-                        <div className="card-body">
-                          <div className="text-center position-relative">
-                            <Link to={`/product/${product.id_product}`}>
-                              <img
-                                src={`http://localhost:4000${product.image}`}
-                                alt="Product"
-                                className="mb-3 img-fluid card-img-top"
-                              />
-                            </Link>
-                          </div>
-                          <div className="text-small mb-1">
-                            <Link
-                              to={`/category/${product.category_name}`}
-                              className="text-inherit text-decoration-none text-dark"
-                            >
-                              <small>{product.category_name}</small>
-                            </Link>
-                          </div>
-                          <h5 className="card-title fs-6">
-                            <Link
-                              to={`/product/${product.id_product}`}
-                              className="text-inherit text-decoration-none text-dark"
-                            >
-                              {product.product_name}
-                            </Link>
-                          </h5>
-
-                          <div className="d-flex justify-content-between align-items-center mt-3">
-                            <div>
-                              <span className="text-dark">
-                                {formatter.format(product.price)}
-                              </span>
+                <div className="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-5">
+                  {currentProducts.length === 0 ? (
+                    <p>Tidak ada produk di Kategori {selectedCategory}</p>
+                  ) : (
+                    currentProducts.map((product) => (
+                      <div className="col" key={product.id_product}>
+                        <div className="card card-product">
+                          <div className="card-body">
+                            <div className="text-center position-relative">
+                              <Link to={`/product/${product.id_product}`}>
+                                <img
+                                  src={`http://localhost:4000${product.image}`}
+                                  alt="Product"
+                                  className="mb-3 img-fluid card-img-top"
+                                />
+                              </Link>
                             </div>
-                            <div>
-                              <button
-                                className="btn add-to-cart-btn"
-                                onClick={() => handleAddToCart(product)}
+                            <div className="text-small mb-1">
+                              <Link
+                                to={`/category/${product.category_name}`}
+                                className="text-inherit text-decoration-none text-dark"
                               >
-                                <FontAwesomeIcon icon={faCartPlus} />
-                              </button>
+                                <small>{product.category_name}</small>
+                              </Link>
+                            </div>
+                            <h5 className="card-title fs-6">
+                              <Link
+                                to={`/product/${product.id_product}`}
+                                className="text-inherit text-decoration-none text-dark"
+                              >
+                                {product.product_name}
+                              </Link>
+                            </h5>
+
+                            <div className="d-flex justify-content-between align-items-center mt-3">
+                              <div>
+                                <span className="text-dark">
+                                  {formatter.format(product.price)}
+                                </span>
+                              </div>
+                              <div>
+                                <button
+                                  className="btn add-to-cart-btn"
+                                  onClick={() => handleAddToCart(product)}
+                                >
+                                  <FontAwesomeIcon icon={faCartPlus} />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
               <nav>

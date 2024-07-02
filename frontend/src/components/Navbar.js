@@ -21,7 +21,6 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -54,7 +53,6 @@ const Navbar = () => {
         });
 
         setAllProducts(mergedProducts);
-        setCategories(categoriesData);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -219,29 +217,7 @@ const Navbar = () => {
                     Tentang Kami
                   </HashLink>
                 </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Kategori
-                  </a>
-                  <ul className="dropdown-menu">
-                    {categories.map((category) => (
-                      <li key={category.id_category}>
-                        <Link
-                          to={`/category/${category.category_name}`}
-                          className="dropdown-item"
-                        >
-                          {category.category_name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
+
                 <li className="nav-item">
                   <Link to="/all-products" className="nav-link">
                     Produk
