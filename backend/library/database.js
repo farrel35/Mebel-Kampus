@@ -4,10 +4,10 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
-  database: "furnitureapps",
+  database: "mebel_kampus",
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 });
 
 module.exports = pool.promise();

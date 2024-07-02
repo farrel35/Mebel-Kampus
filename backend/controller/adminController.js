@@ -16,7 +16,7 @@ const upload = multer({ storage: storage });
 
 // Get all users (Admin only)
 const getAllUsers = async (req, res) => {
-  const sql = "SELECT id_user, username, email, role FROM tbl_users";
+  const sql = "SELECT * FROM tbl_users";
   try {
     const [rows] = await db.query(sql);
     res.json({
@@ -84,8 +84,7 @@ const updateUserRole = async (req, res) => {
 
 // Get all products
 const getAllProducts = async (req, res) => {
-  const sql =
-    "SELECT id_product, product_name, description, price, stock, image FROM tbl_products";
+  const sql = "SELECT * FROM tbl_products";
   try {
     const [rows] = await db.query(sql);
     res.json({
@@ -266,8 +265,7 @@ const deleteProduct = async (req, res) => {
 
 // Get All category
 const getAllCategories = async (req, res) => {
-  const sql =
-    "SELECT id_category, category_name, categorys, image FROM tbl_categorys";
+  const sql = "SELECT * FROM tbl_categorys";
   try {
     const [rows] = await db.query(sql);
     res.json({
