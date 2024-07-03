@@ -30,6 +30,10 @@ const UserManagement = () => {
     }
   };
 
+  if (!users) {
+    return;
+  }
+
   return (
     <div className="container-fluid container-admin">
       <h2>Manage Users</h2>

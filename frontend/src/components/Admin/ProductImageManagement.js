@@ -88,7 +88,7 @@ const ProductImageManagement = () => {
   }, []);
 
   if (!products) {
-    return null;
+    return;
   }
 
   return (

@@ -141,6 +141,10 @@ const CategoryManagement = () => {
     }
   };
 
+  if (!categories) {
+    return;
+  }
+
   return (
     <div className="container-fluid container-admin">
       <h2>Kelola Kategori</h2>

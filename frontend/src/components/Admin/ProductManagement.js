@@ -199,7 +199,7 @@ const ProductManagement = () => {
   };
 
   if (!products || !categories) {
-    return null; // or loading indicator
+    return; // or loading indicator
   }
 
   return (

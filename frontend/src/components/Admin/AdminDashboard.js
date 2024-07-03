@@ -63,6 +63,10 @@ const AdminDashboard = () => {
     setActiveContent(null);
   };
 
+  if (!totalProducts || !totalCategories || !totalUsers) {
+    return;
+  }
+
   return (
     <div className="admin-container">
       <div className="admin-sidebar">
