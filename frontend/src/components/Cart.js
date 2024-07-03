@@ -11,13 +11,15 @@ import {
   updateCartQuantity,
 } from "./HandleAPI_User";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
 
-  const TAX_RATE = 0.01;
+  const ongkir = 100000;
 
   const [shippingInfo, setShippingInfo] = useState({
+    name: "",
     address: "",
     phoneNumber: "",
     paymentMethod: "",
@@ -56,9 +58,36 @@ const Cart = () => {
     setShippingInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Shipping Information Submitted:", shippingInfo);
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/order/checkout",
+        {
+          cartItems: cartItems,
+          nama_penerima: shippingInfo.name,
+          tlp_penerima: shippingInfo.phoneNumber,
+          alamat_penerima: shippingInfo.address,
+          ongkir: ongkir,
+          grand_total: total,
+          total_bayar: parseFloat(total) + ongkir,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Order successfully placed:", response.data);
+      // Optionally, handle success message or redirect to a success page
+    } catch (error) {
+      console.error("Failed to place order:", error);
+      // Handle error, show message to user, etc.
+    }
   };
 
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -181,9 +210,6 @@ const Cart = () => {
             </div>
           </div>
           <div className="col-1 d-flex justify-content-end align-items-center">
-            <h5 className="cart-price">
-              {/* {formatter.format(item.price * item.quantity)} */}
-            </h5>
             <a
               href="#!"
               className="ms-3 text-danger"
@@ -238,7 +264,17 @@ const Cart = () => {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Address"
+                            placeholder="Nama Penerima"
+                            name="name"
+                            value={shippingInfo.name}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Alamat Penerima"
                             name="address"
                             value={shippingInfo.address}
                             onChange={handleInputChange}
@@ -248,24 +284,11 @@ const Cart = () => {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Phone Number"
+                            placeholder="No Penerima"
                             name="phoneNumber"
                             value={shippingInfo.phoneNumber}
                             onChange={handleInputChange}
                           />
-                        </div>
-                        <div className="mb-3">
-                          <select
-                            className="form-select"
-                            name="paymentMethod"
-                            value={shippingInfo.paymentMethod}
-                            onChange={handleInputChange}
-                          >
-                            <option value="">Select Payment Method</option>
-                            <option value="credit_card">Credit Card</option>
-                            <option value="paypal">Paypal</option>
-                            <option value="bank_transfer">Bank Transfer</option>
-                          </select>
                         </div>
                         <button
                           type="submit"
@@ -282,12 +305,14 @@ const Cart = () => {
                         <span>{formatter.format(total)}</span>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <span>Tax ({TAX_RATE * 100}%)</span>
-                        {/* <span>${calculateTax()}</span> */}
+                        <span>Ongkir</span>
+                        <span>{formatter.format(ongkir)}</span>
                       </div>
                       <div className="d-flex justify-content-between">
                         <span>Total</span>
-                        {/* <span>${calculateSubtotal() + calculateTax()}</span> */}
+                        <span>
+                          {formatter.format(parseFloat(total) + ongkir)}
+                        </span>
                       </div>
                     </div>
                   </div>

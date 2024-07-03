@@ -1,37 +1,75 @@
 const db = require("../library/database");
 
+const generateOrderNumber = () => {
+  const generateRandomString = (length, characters) => {
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
+  const alphaPart = generateRandomString(5, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  const numericPart = generateRandomString(4, "0123456789");
+  return `#MF-${alphaPart}${numericPart}`;
+};
+
 const orderProduct = async (req, res) => {
   try {
-    const { id_product, quantity, status, price, total, payment, delivery } = req.body;
+    const {
+      cartItems,
+      nama_penerima,
+      tlp_penerima,
+      alamat_penerima,
+      ongkir,
+      grand_total,
+      total_bayar,
+    } = req.body;
     const id_user = req.user.id_user;
 
-    // Cek apakah produk tersedia
-    const [products] = await db.query(
-      "SELECT * FROM tbl_products WHERE id_product = ?",
-      [id_product]
-    );
-    const product = products[0];
+    const no_order = generateOrderNumber();
 
-    if (!product) {
-      return res.status(404).json({ message: "Product tidak ditemukan" });
+    for (let item of cartItems) {
+      const { id_product, quantity } = item;
+      // Fetch product details from database
+      const [products] = await db.query(
+        "SELECT * FROM tbl_products WHERE id_product = ?",
+        [id_product]
+      );
+      const product = products[0];
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      // Check if there's enough stock
+      if (product.stock < quantity) {
+        return res.status(400).json({ message: "Insufficient stock" });
+      }
+      // Calculate new stock after purchase
+      const newStock = product.stock - quantity;
+      // Update product stock in the database
+      await db.query("UPDATE tbl_products SET stock = ? WHERE id_product = ?", [
+        newStock,
+        id_product,
+      ]);
+      // Insert order details into tbl_orders
+      const sql =
+        "INSERT INTO tbl_detail_transaction (no_order, id_product, quantity) VALUES (?, ?, ?)";
+      await db.query(sql, [no_order, id_product, quantity]);
     }
 
-    if (product.stock < quantity) {
-      return res.status(400).json({ message: "Stock Habis" });
-    }
-
-    // Insert ke tbl_order_products
-    const sql = "INSERT INTO tbl_order_products (id_user, id_product, quantity, status, price, total, payment, delivery) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    const [result] = await db.query(sql, [id_user, id_product, quantity, status, price, total, payment, delivery]);
-
-    // Kurangi stok produk
-    const newStock = product.stock - quantity;
-    await db.query("UPDATE tbl_products SET stock = ? WHERE id_product = ?", [newStock, id_product]);
-
-    return res.json({
-      payload: { order_id: result.insertId },
-      message: "Order Berhasil",
-    });
+    const sql =
+      "INSERT INTO tbl_transaction (id_user, no_order, nama_penerima, tlp_penerima, alamat_penerima, ongkir, grand_total, total_bayar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    await db.query(sql, [
+      id_user,
+      no_order,
+      nama_penerima,
+      tlp_penerima,
+      alamat_penerima,
+      ongkir,
+      grand_total,
+      total_bayar,
+    ]);
   } catch (error) {
     console.error("Error adding to order:", error.message);
     res.status(500).send("Server error");
@@ -42,7 +80,6 @@ module.exports = {
   orderProduct,
 };
 
-
 module.exports = {
-    orderProduct
+  orderProduct,
 };
