@@ -10,6 +10,7 @@ const Profile = () => {
     username: "",
     email: "",
     no_hp: "",
+    alamat: "",
     password: "", // State for password
   });
 
@@ -55,6 +56,7 @@ const Profile = () => {
       username: userData.username,
       email: userData.email,
       no_hp: userData.no_hp,
+      alamat: userData.alamat,
       password: passwordRef.current.value,
     };
     updateProfile(inputData, file)
@@ -91,6 +93,9 @@ const Profile = () => {
             </p>
             <p>
               <strong>No Hp:</strong> {userData.no_hp}
+            </p>
+            <p>
+              <strong>Alamat:</strong> {userData.alamat}
             </p>
             <button className="edit-button" onClick={openModal}>
               Edit Profile
@@ -139,6 +144,17 @@ const Profile = () => {
                         type="text"
                         name="no_hp"
                         value={userData.no_hp}
+                        onChange={handleInputChange}
+                        className="form-control"
+                      />
+                    </label>
+
+                    <label>
+                      Alamat:
+                      <input
+                        type="text"
+                        name="alamat"
+                        value={userData.alamat}
                         onChange={handleInputChange}
                         className="form-control"
                       />

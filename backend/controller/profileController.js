@@ -35,13 +35,13 @@ const getProfile = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  const { username, email, password, no_hp } = req.body;
+  const { username, email, password, no_hp, alamat } = req.body;
   const id_user = req.user.id_user; // Ambil ID pengguna dari req.user atau sesuaikan dengan cara Anda
 
   try {
     // Dapatkan profil pengguna terbaru dari database
     const [currentUserData] = await db.execute(
-      "SELECT username, email, password, no_hp, image FROM tbl_users WHERE id_user = ?",
+      "SELECT username, email, password, no_hp, alamat, image FROM tbl_users WHERE id_user = ?",
       [id_user]
     );
 
@@ -58,6 +58,7 @@ const updateProfile = async (req, res) => {
       email: email || currentUser.email,
       password: password || currentUser.password,
       no_hp: no_hp || currentUser.no_hp,
+      alamat: alamat || currentUser.alamat,
       image: currentUser.image, // Gunakan gambar saat ini sebagai default
     };
 
@@ -68,12 +69,13 @@ const updateProfile = async (req, res) => {
 
     // Lakukan pembaruan hanya jika ada setidaknya satu nilai yang diubah
     const [results] = await db.execute(
-      "UPDATE tbl_users SET username = ?, email = ?, password = ?, no_hp = ?, image = ? WHERE id_user = ?",
+      "UPDATE tbl_users SET username = ?, email = ?, password = ?, no_hp = ?, alamat = ? ,image = ? WHERE id_user = ?",
       [
         updatedFields.username,
         updatedFields.email,
         updatedFields.password,
         updatedFields.no_hp,
+        updatedFields.alamat,
         updatedFields.image,
         id_user,
       ]

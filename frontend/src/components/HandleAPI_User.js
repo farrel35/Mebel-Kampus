@@ -336,7 +336,7 @@ export const updateProfile = async (inputData, file) => {
     throw new Error("User not authenticated");
   }
 
-  const { username, email, no_hp, password } = inputData; // Destructure inputData to get profile details
+  const { username, email, no_hp, alamat, password } = inputData; // Destructure inputData to get profile details
 
   // Ensure password is hashed before sending it to the server
   const hashedPassword = await bcrypt.hash(password, 10); // Hash password using bcrypt
@@ -350,6 +350,7 @@ export const updateProfile = async (inputData, file) => {
   formData.append("username", username);
   formData.append("email", email);
   formData.append("no_hp", no_hp);
+  formData.append("alamat", alamat);
   formData.append("password", hashedPassword); // Append hashed password
 
   try {
