@@ -26,6 +26,7 @@ router.put("/", adminController.updateUserRole);
 
 // Routes untuk produk
 router.get("/products", adminController.getAllProducts);
+router.get("/products/image/:id_product", adminController.getProductImage);
 router.put("/products", upload.single("image"), adminController.updateProduct);
 router.delete("/products", adminController.deleteProduct);
 router.post("/products", upload.single("image"), adminController.createProduct);
@@ -43,10 +44,7 @@ router.post(
 // Routes untuk riwayat transaksi
 router.get("/", adminController.getTransactionHistory);
 router.post("/transaction_history", adminController.createTransactionHistory);
-router.get(
-  "/transaction_history/:id",
-  adminController.getTransactionHistory
-);
+router.get("/transaction_history/:id", adminController.getTransactionHistory);
 router.put(
   "/transaction_history/:id",
   adminController.updateTransactionHistory
