@@ -78,7 +78,7 @@ const Cart = () => {
 
     if (itemToUpdate.quantity >= itemToUpdate.stock) {
       Swal.fire({
-        title: "Gagal!",
+        title: "Error!",
         text: "Tidak bisa menambah barang.",
         icon: "error",
         confirmButtonText: "OK",
