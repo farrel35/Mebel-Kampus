@@ -85,6 +85,50 @@ export const fetchProducts = async () => {
   }
 };
 
+export const fetchImageProducts = async (id_product) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    Swal.fire({
+      title: "Error!",
+      text: "Anda harus login.",
+      icon: "error",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/";
+      }
+    });
+    return;
+  }
+
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/products/image/${id_product}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data.payload;
+  } catch (error) {
+    Swal.fire({
+      title: "Error!",
+      text: error.response
+        ? error.response.data.message
+        : "Something went wrong. Please try again later.",
+      icon: "error",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/";
+      }
+    });
+  }
+};
+
 export const fetchCategories = async () => {
   const token = localStorage.getItem("token");
 

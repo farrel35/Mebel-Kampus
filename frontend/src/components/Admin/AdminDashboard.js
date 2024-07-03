@@ -6,6 +6,7 @@ import logo from "../../images/logo.png"; // Ganti path dengan path sesuai logo 
 
 // Import komponen-komponen untuk Product Management dan lainnya
 import ProductManagement from "./ProductManagement";
+import ProductImageManagement from "./ProductImageManagement";
 import CategoryManagement from "./CategoryManagement";
 import OrderManagement from "./OrderManagement";
 import UserManagement from "./UserManagement";
@@ -15,6 +16,7 @@ import {
   fetchCategories, // Import fetchCategories function
 } from "./HandleAPI_Admin";
 import { Link } from "react-router-dom";
+
 const AdminDashboard = () => {
   const [activeContent, setActiveContent] = useState(null);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -39,6 +41,10 @@ const AdminDashboard = () => {
 
   const showProductManagement = () => {
     setActiveContent(<ProductManagement />);
+  };
+
+  const showProductImageManagement = () => {
+    setActiveContent(<ProductImageManagement />);
   };
 
   const showCategoryManagement = () => {
@@ -77,6 +83,9 @@ const AdminDashboard = () => {
         <div className="admin-links">
           <button onClick={showProductManagement}>
             <i className="fas fa-box"></i> Manage Products
+          </button>
+          <button onClick={showProductImageManagement}>
+            <i className="fas fa-box"></i> Manage Image Products
           </button>
           <button onClick={showCategoryManagement}>
             <i className="fas fa-tags"></i> Manage Categories
