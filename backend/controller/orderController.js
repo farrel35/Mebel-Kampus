@@ -80,10 +80,46 @@ const orderProduct = async (req, res) => {
   }
 };
 
-module.exports = {
-  orderProduct,
+const getOrder = async (req, res) => {
+  const { no_order } = req.params;
+
+  try {
+    const sql = "SELECT * FROM tbl_transaction WHERE no_order = ?";
+    const [rows, fields] = await db.query(sql, [no_order]);
+    res.json({
+      payload: rows,
+      message: "Success Show Image Product!",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err,
+    });
+  }
+};
+
+const getDetailOrder = async (req, res) => {
+  const { no_order } = req.params;
+
+  try {
+    const sql = "SELECT * FROM tbl_detail_transaction WHERE no_order = ?";
+    const [rows, fields] = await db.query(sql, [no_order]);
+    res.json({
+      payload: rows,
+      message: "Success Show Image Product!",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err,
+    });
+  }
 };
 
 module.exports = {
   orderProduct,
+  getOrder,
+  getDetailOrder,
 };
