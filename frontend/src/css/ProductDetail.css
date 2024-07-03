@@ -227,3 +227,7 @@
 .product-card a:hover {
   color: #2980b9;
 }
+
+.product-description {
+  white-space: pre-line; /* Ensures that whitespace is preserved and respects line breaks in the text */
+}

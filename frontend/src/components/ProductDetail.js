@@ -101,7 +101,7 @@ const ProductDetail = () => {
                 alt="Product"
                 className="card-img-product mb-5 mb-md-0"
               />
-              <div className="d-flex flex-wrap mt-3">
+              <div className="d-flex flex-wrap mt-3 justify-content-center">
                 <img
                   src={primaryImage}
                   alt="Product"
@@ -128,7 +128,9 @@ const ProductDetail = () => {
               <div className="fs-5 mb-5">
                 <span>{formatter.format(product.price)}</span>
               </div>
-              <p className="lead">{product.description}</p>
+              <div className="product-description">
+                <p className="lead">{product.description}</p>
+              </div>
               <div className="d-flex">
                 <input
                   className="form-control text-center me-3"

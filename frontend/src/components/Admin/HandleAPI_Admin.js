@@ -129,6 +129,92 @@ export const fetchImageProducts = async (id_product) => {
   }
 };
 
+export const deleteImageProducts = async (idImage) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("User not authenticated");
+  }
+
+  // Show confirmation dialog
+  const result = await Swal.fire({
+    title: "Apakah kamu yakin?",
+    text: "Apakah kamu yakin menghapus foto ini?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya",
+    cancelButtonText: "Tidak",
+  });
+
+  // Proceed with deletion if the user confirms
+  if (result.isConfirmed) {
+    try {
+      const response = await axios.delete(`${BASE_URL}/admin/products/image`, {
+        data: { id_image: idImage }, // Correctly send id_product in the request body
+
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      Swal.fire({
+        title: "Sukses!",
+        text: "Berhasil menghapus foto.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      return response.data;
+    } catch (error) {
+      // Handle error, e.g., show error message
+      console.error("Error deleting product:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Gagal menghapus fptp.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  } else {
+    // If the user cancels the action, show a cancellation message
+    Swal.fire({
+      title: "Batal",
+      text: "Foto batal dihapus",
+      icon: "info",
+      confirmButtonText: "OK",
+    });
+  }
+};
+
+export const addImageProducts = async (formData) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/admin/products/image`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", // Set content type for FormData
+        },
+      }
+    );
+
+    Swal.fire({
+      title: "Success!",
+      text: "Sukses menambahkan foto.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
+    return response.data; // Ensure the response is correctly structured
+  } catch (error) {
+    console.error("Error updating product", error);
+    throw error;
+  }
+};
+
 export const fetchCategories = async () => {
   const token = localStorage.getItem("token");
 
