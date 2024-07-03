@@ -12,7 +12,7 @@ const generateOrderNumber = () => {
 
   const alphaPart = generateRandomString(5, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
   const numericPart = generateRandomString(4, "0123456789");
-  return `#MF-${alphaPart}${numericPart}`;
+  return `MF-${alphaPart}${numericPart}`;
 };
 
 const orderProduct = async (req, res) => {
