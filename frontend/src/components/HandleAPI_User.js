@@ -380,3 +380,59 @@ export const updateProfile = async (inputData, file) => {
     throw new Error("Failed to update profile");
   }
 };
+
+export const checkoutCart = async (cartItems, formData) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    Swal.fire({
+      title: "Error!",
+      text: "Anda harus login.",
+      icon: "error",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/login";
+      }
+    });
+    return;
+  }
+
+  try {
+    await axios.post(
+      "http://localhost:4000/order/checkout",
+      {
+        cartItems: cartItems,
+        nama_penerima: formData.get("nama_penerima"), // Retrieve fields from formData
+        tlp_penerima: formData.get("tlp_penerima"),
+        alamat_penerima: formData.get("alamat_penerima"),
+        ongkir: formData.get("ongkir"),
+        grand_total: formData.get("grand_total"),
+        total_bayar: formData.get("total_bayar"),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    Swal.fire({
+      title: "Sukses!",
+      text: "Berhasil Checkout.",
+      icon: "success",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`${BASE_URL}/cart`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        window.location.href = "/";
+      }
+    });
+  } catch (error) {
+    console.error("Failed to place order:", error);
+  }
+};

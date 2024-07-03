@@ -9,12 +9,13 @@ import {
   fetchCart,
   deleteCartItem,
   updateCartQuantity,
+  checkoutCart,
 } from "./HandleAPI_User";
 import Swal from "sweetalert2";
-import axios from "axios";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [error, setError] = useState("");
 
   const ongkir = 100000;
 
@@ -61,32 +62,29 @@ const Cart = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
+    // Ensure shippingInfo is defined and has necessary properties
+    if (
+      !shippingInfo ||
+      !shippingInfo.name ||
+      !shippingInfo.phoneNumber ||
+      !shippingInfo.address
+    ) {
+      setError("Shipping information is incomplete.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("nama_penerima", shippingInfo.name);
+    formData.append("tlp_penerima", shippingInfo.phoneNumber);
+    formData.append("alamat_penerima", shippingInfo.address);
+    formData.append("ongkir", ongkir);
+    formData.append("grand_total", total);
+    formData.append("total_bayar", parseFloat(total) + ongkir);
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/order/checkout",
-        {
-          cartItems: cartItems,
-          nama_penerima: shippingInfo.name,
-          tlp_penerima: shippingInfo.phoneNumber,
-          alamat_penerima: shippingInfo.address,
-          ongkir: ongkir,
-          grand_total: total,
-          total_bayar: parseFloat(total) + ongkir,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Order successfully placed:", response.data);
-      // Optionally, handle success message or redirect to a success page
+      await checkoutCart(cartItems, formData);
     } catch (error) {
       console.error("Failed to place order:", error);
-      // Handle error, show message to user, etc.
     }
   };
 
@@ -254,7 +252,10 @@ const Cart = () => {
 
                 <div className="col-lg-5">
                   <div className="cart-card cart-bg-green text-white rounded-3 cart-sticky-shipping">
-                    <div className="cart-card-body text-end">
+                    <div className="cart-card-body">
+                      {error && (
+                        <div className="alert alert-danger">{error}</div>
+                      )}
                       <div className="d-flex justify-content-between align-items-center mb-4">
                         <h5 className="mb-0">Shipping Details</h5>
                       </div>

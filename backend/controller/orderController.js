@@ -70,6 +70,10 @@ const orderProduct = async (req, res) => {
       grand_total,
       total_bayar,
     ]);
+
+    return res.json({
+      message: "Order Berhasil",
+    });
   } catch (error) {
     console.error("Error adding to order:", error.message);
     res.status(500).send("Server error");
