@@ -10,6 +10,7 @@ import {
   deleteCartItem,
   updateCartQuantity,
 } from "./HandleAPI_User";
+import Swal from "sweetalert2";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -70,8 +71,22 @@ const Cart = () => {
     .toFixed(2);
 
   const increaseQuantity = async (id_product) => {
+    const itemToUpdate = cartItems.find(
+      (item) => item.id_product === id_product
+    );
+    if (!itemToUpdate) return;
+
+    if (itemToUpdate.quantity >= itemToUpdate.stock) {
+      Swal.fire({
+        title: "Gagal!",
+        text: "Tidak bisa menambah barang.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
     const updatedCartItems = cartItems.map((item) =>
-      item.id_product === id_product
+      item.id_product === id_product && item.quantity < item.stock // Assuming there's a 'stock' property for each item
         ? {
             ...item,
             quantity: item.quantity + 1,
