@@ -125,7 +125,9 @@ const ProductDetail = () => {
             </div>
             <div className="col-md-6">
               <h1 className="display-5 fw-bolder">{product.product_name}</h1>
+
               <div className="fs-5 mb-5">
+                <h6>Stok : {product.stock}</h6>
                 <span>{formatter.format(product.price)}</span>
               </div>
               <div className="product-description">
@@ -138,7 +140,8 @@ const ProductDetail = () => {
                   type="number"
                   defaultValue={1}
                   min={1}
-                  style={{ maxWidth: "3rem" }}
+                  max={product.stock}
+                  style={{ maxWidth: "4rem" }}
                   onChange={(e) => setQuantity(parseInt(e.target.value))}
                 />
                 <button
@@ -176,54 +179,42 @@ const ProductDetail = () => {
                     )
                     .map((currentProduct) => (
                       <div className="col" key={currentProduct.id_product}>
-                        <div className="card card-product">
-                          <div className="card-body">
-                            <div className="text-center position-relative">
-                              <Link
-                                to={`/product/${currentProduct.id_product}`}
-                              >
+                        <Link
+                          to={`/product/${currentProduct.id_product}`}
+                          className="text-decoration-none"
+                        >
+                          <div className="card card-product">
+                            <div className="card-body">
+                              <div className="text-center position-relative">
                                 <img
                                   src={`http://localhost:4000${currentProduct.image}`}
                                   alt="Product"
                                   className="mb-3 img-fluid card-img-top"
                                 />
-                              </Link>
-                            </div>
-                            <div className="text-small mb-1">
-                              <Link
-                                to={`/category/${currentProduct.category_name}`}
-                                className="text-inherit text-decoration-none text-dark"
-                              >
-                                <small>{currentProduct.category_name}</small>
-                              </Link>
-                            </div>
-                            <h5 className="fs-6">
-                              <Link
-                                to={`/product/${currentProduct.id_product}`}
-                                className="text-inherit text-decoration-none text-dark"
-                              >
-                                {currentProduct.product_name}
-                              </Link>
-                            </h5>
-                            <div className="d-flex justify-content-between align-items-center mt-3">
-                              <div>
-                                <span className="text-dark">
-                                  {formatter.format(currentProduct.price)}
-                                </span>
                               </div>
-                              <div>
-                                <button
-                                  className="btn add-to-cart-btn"
-                                  onClick={() =>
-                                    handleAddToCart(currentProduct)
-                                  }
+                              <div className="text-small mb-1">
+                                <Link
+                                  to={`/category/${currentProduct.category_name}`}
+                                  className="text-decoration-none text-muted"
                                 >
-                                  <FontAwesomeIcon icon={faCartPlus} />
-                                </button>
+                                  <small>{currentProduct.category_name}</small>
+                                </Link>
+                              </div>
+                              <h5 className="card-title fs-6">
+                                {currentProduct.product_name}
+                              </h5>
+
+                              <div className="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                  <span className="text-dark">
+                                    {formatter.format(currentProduct.price)}
+                                  </span>
+                                </div>
+                                <div></div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       </div>
                     ))}
                 </div>

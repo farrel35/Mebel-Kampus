@@ -139,21 +139,26 @@ const Navbar = () => {
     return (
       <>
         {cartItems.map((item) => (
-          <li key={item.id_cart} className="dropdown-item d-flex">
-            <img
-              src={`http://localhost:4000${item.image}`}
-              alt={item.title}
-              width="64"
-              height="64"
-              className="flex-shrink-0"
-            />
-            <div className="d-flex flex-column justify-content-between ms-3">
-              <h6>{item.product_name}</h6>
-              <p>
-                {item.quantity} x $ {formatter.format(item.price)}
-              </p>
-            </div>
-          </li>
+          <Link
+            to={`/product/${item.id_product}`}
+            className="text-decoration-none"
+          >
+            <li key={item.id_cart} className="dropdown-item d-flex">
+              <img
+                src={`http://localhost:4000${item.image}`}
+                alt={item.title}
+                width="64"
+                height="64"
+                className="flex-shrink-0"
+              />
+              <div className="d-flex flex-column justify-content-between ms-3">
+                <h6>{item.product_name}</h6>
+                <p>
+                  {item.quantity} x $ {formatter.format(item.price)}
+                </p>
+              </div>
+            </li>
+          </Link>
         ))}
         <li className="dropdown-item">
           <b>Total</b>: {formatter.format(total)}
@@ -266,19 +271,12 @@ const Navbar = () => {
               </div>
               <ul className="nav navbar-nav d-flex justify-content-center">
                 <li className="nav-item dropdown">
-                  <a
-                    href="#"
-                    className="nav-link"
-                    id="cartDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <button className="nav-link" data-bs-toggle="dropdown">
                     <FontAwesomeIcon icon={faCartShopping} />
                     <span className="position-absolute top-5 translate-middle badge bg-danger navbar-badge">
                       {cartItems.length}
                     </span>
-                  </a>
+                  </button>
                   <ul
                     className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="cartDropdown"

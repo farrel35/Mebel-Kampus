@@ -7,7 +7,6 @@ import {
   faHandshake,
   faMedal,
   faCircleCheck,
-  faCartPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/Body.css";
 import heroImage from "../images/baru.png";
@@ -15,7 +14,7 @@ import banner1 from "../images/design1.png";
 import banner2 from "../images/design2.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { fetchProducts, fetchCategories, addToCart } from "./HandleAPI_User";
+import { fetchProducts, fetchCategories } from "./HandleAPI_User";
 
 const Body = () => {
   const [products, setProducts] = useState([]);
@@ -58,10 +57,6 @@ const Body = () => {
     style: "currency",
     currency: "IDR",
   });
-
-  const handleAddToCart = (product) => {
-    addToCart(product, 1);
-  };
 
   if (!products) {
     return;
@@ -290,51 +285,42 @@ const Body = () => {
             <div className="row g-4 row-cols-1 row-cols-md-3 row-cols-lg-4">
               {currentProducts.map((product) => (
                 <div className="col" key={product.id_product}>
-                  <div className="card card-product">
-                    <div className="card-body">
-                      <div className="text-center position-relative">
-                        <Link to={`/product/${product.id_product}`}>
+                  <Link
+                    to={`/product/${product.id_product}`}
+                    className="text-decoration-none"
+                  >
+                    <div className="card card-product">
+                      <div className="card-body">
+                        <div className="text-center position-relative">
                           <img
                             src={`http://localhost:4000${product.image}`}
                             alt="Product"
                             className="mb-3 img-fluid card-img-top"
                           />
-                        </Link>
-                      </div>
-                      <div className="text-small mb-1">
-                        <Link
-                          to={`/category/${product.category_name}`}
-                          className="text-decoration-none text-muted"
-                        >
-                          <small>{product.category_name}</small>
-                        </Link>
-                      </div>
-                      <h5 className="card-title fs-6">
-                        <Link
-                          to={`/product/${product.id_product}`}
-                          className="text-inherit text-decoration-none text-dark"
-                        >
-                          {product.product_name}
-                        </Link>
-                      </h5>
-
-                      <div className="d-flex justify-content-between align-items-center mt-3">
-                        <div>
-                          <span className="text-dark">
-                            {formatter.format(product.price)}
-                          </span>
                         </div>
-                        <div>
-                          <button
-                            className="btn add-to-cart-btn"
-                            onClick={() => handleAddToCart(product)}
+                        <div className="text-small mb-1">
+                          <Link
+                            to={`/category/${product.category_name}`}
+                            className="text-decoration-none text-muted"
                           >
-                            <FontAwesomeIcon icon={faCartPlus} />
-                          </button>
+                            <small>{product.category_name}</small>
+                          </Link>
+                        </div>
+                        <h5 className="card-title fs-6">
+                          {product.product_name}
+                        </h5>
+
+                        <div className="d-flex justify-content-between align-items-center mt-3">
+                          <div>
+                            <span className="text-dark">
+                              {formatter.format(product.price)}
+                            </span>
+                          </div>
+                          <div></div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               ))}
             </div>
