@@ -117,6 +117,69 @@ const getProductImage = async (req, res) => {
     });
   }
 };
+
+const deleteProductImage = async (req, res) => {
+  const { id_image } = req.body;
+  try {
+    const sql = "DELETE FROM tbl_image_products WHERE id_image = ?";
+    const [result] = await db.query(sql, [id_image]);
+    res.json({
+      payload: {
+        isSuccess: result.affectedRows,
+        message: result.message,
+      },
+      message: "Success Delete Data",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err,
+    });
+  }
+};
+
+const addProductImage = async (req, res) => {
+  try {
+    const { id_product, keterangan } = req.body;
+    let image;
+
+    if (req.file) {
+      // If a file is uploaded, store its relative path
+      image = `/image/${req.file.filename}`;
+    } else {
+      throw new Error("No file uploaded");
+    }
+
+    console.log("Parsed request data:", {
+      id_product,
+      keterangan,
+      image,
+    });
+
+    const sql =
+      "INSERT INTO tbl_image_products (id_product, keterangan, image) VALUES (?, ?, ?)";
+    const values = [id_product, keterangan, image];
+
+    const [result] = await db.query(sql, values);
+
+    console.log("Database insert successful:", result);
+
+    res.json({
+      payload: {
+        isSuccess: result.affectedRows > 0,
+        id: result.insertId,
+      },
+      message: "Product added!",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err.message,
+    });
+  }
+};
 // Create product
 const createProduct = async (req, res) => {
   try {
@@ -529,6 +592,8 @@ module.exports = {
   updateUserRole,
   getAllProducts,
   getProductImage,
+  deleteProductImage,
+  addProductImage,
   createProduct,
   updateProduct,
   deleteProduct,

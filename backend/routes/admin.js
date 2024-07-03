@@ -27,6 +27,12 @@ router.put("/", adminController.updateUserRole);
 // Routes untuk produk
 router.get("/products", adminController.getAllProducts);
 router.get("/products/image/:id_product", adminController.getProductImage);
+router.delete("/products/image", adminController.deleteProductImage);
+router.post(
+  "/products/image",
+  upload.single("image"),
+  adminController.addProductImage
+);
 router.put("/products", upload.single("image"), adminController.updateProduct);
 router.delete("/products", adminController.deleteProduct);
 router.post("/products", upload.single("image"), adminController.createProduct);
