@@ -119,6 +119,7 @@ const ProductManagement = () => {
     formData.append("description", selectedProduct.description);
     formData.append("price", selectedProduct.price);
     formData.append("stock", selectedProduct.stock);
+    formData.append("id_category", selectedProduct.id_category);
 
     if (file) {
       formData.append("image", file);
