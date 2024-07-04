@@ -118,8 +118,39 @@ const getDetailOrder = async (req, res) => {
   }
 };
 
+const updateStatusBayar = async (req, res) => {
+  const { no_order } = req.params;
+  let image = null;
+
+  try {
+    // Pastikan item keranjang ada sebelum diupdate
+    const [orderItem] = await db.query(
+      `SELECT * FROM tbl_transaction WHERE no_order = ?`,
+      [no_order]
+    );
+
+    if (!orderItem) {
+      return res.status(404).json({ message: "Order tidak ditemukan" });
+    }
+
+    if (req.file) {
+      image = `/image/${req.file.filename}`; // Gunakan path relatif dengan nama file yang diunggah
+    }
+
+    // Update jumlah barang di keranjang
+    const sql = `UPDATE tbl_transaction SET status_bayar = 1, image_bayar = ? WHERE no_order = ?`;
+    await db.query(sql, [image, no_order]);
+
+    res.status(200).json({ message: "Status pembayaran berhasil diperbarui" });
+  } catch (error) {
+    console.error("Error updating status bayar:", error.message);
+    res.status(500).send("Server error");
+  }
+};
+
 module.exports = {
   orderProduct,
   getOrder,
   getDetailOrder,
+  updateStatusBayar,
 };
