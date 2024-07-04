@@ -16,6 +16,7 @@ import AllProducts from "./components/AllProducts";
 import BackToTopButton from "./components/BackToTopButton";
 import Profile from "./components/Profile";
 import AdminDashboard from "./components/Admin/AdminDashboard";
+import Order from "./components/Order";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/category/:category" element={<ProductByCategory />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/order" element={<Order />} />
       </Routes>
     </Router>
   );
