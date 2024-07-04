@@ -81,14 +81,14 @@ const orderProduct = async (req, res) => {
 };
 
 const getOrder = async (req, res) => {
-  const { no_order } = req.params;
+  const id_user = req.user.id_user;
 
   try {
-    const sql = "SELECT * FROM tbl_transaction WHERE no_order = ?";
-    const [rows, fields] = await db.query(sql, [no_order]);
+    const sql = "SELECT * FROM tbl_transaction WHERE id_user = ?";
+    const [rows, fields] = await db.query(sql, [id_user]);
     res.json({
       payload: rows,
-      message: "Success Show Image Product!",
+      message: "Success Show Transaction!",
     });
   } catch (err) {
     console.error("Error executing query:", err);
@@ -103,11 +103,11 @@ const getDetailOrder = async (req, res) => {
   const { no_order } = req.params;
 
   try {
-    const sql = "SELECT * FROM tbl_detail_transaction WHERE no_order = ?";
+    const sql = ` SELECT dt.*, p.product_name, p.price, p.image FROM tbl_detail_transaction dt JOIN tbl_products p ON dt.id_product = p.id_product WHERE dt.no_order = ? `;
     const [rows, fields] = await db.query(sql, [no_order]);
     res.json({
       payload: rows,
-      message: "Success Show Image Product!",
+      message: "Success Show Detail Transaction!",
     });
   } catch (err) {
     console.error("Error executing query:", err);
