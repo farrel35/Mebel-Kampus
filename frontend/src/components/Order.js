@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../css/Order.css";
-import axios from "axios";
-
-const BASE_URL = "http://localhost:4000";
+import { fetchOrder, updateStatusBayar } from "./HandleAPI_User";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -58,69 +56,27 @@ const Order = () => {
     }
     setError("");
 
-    try {
-      const formData = new FormData();
-      formData.append("nama_bank", buktiBayar.bankName);
-      formData.append("atas_nama", buktiBayar.accountOwner);
-      formData.append("no_rekening", buktiBayar.accountNumber);
-      formData.append("image", file);
+    const formData = new FormData();
+    formData.append("nama_bank", buktiBayar.bankName);
+    formData.append("atas_nama", buktiBayar.accountOwner);
+    formData.append("no_rekening", buktiBayar.accountNumber);
+    formData.append("image", file);
 
-      const token = localStorage.getItem("token");
-
-      await axios.put(
-        `${BASE_URL}/order/transaction-detail/edit/${currentOrderId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      closeBayarModal();
-    } catch (error) {
-      console.error("Error submitting payment:", error);
-    }
+    await updateStatusBayar(formData, currentOrderId);
   };
 
   useEffect(() => {
-    const fetchOrder = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        throw new Error("User not authenticated");
-      }
-
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/order/transaction`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setOrderItems(response.data.payload);
-
-        const detailedData = await Promise.all(
-          response.data.payload.map(async (item) => {
-            const detailResponse = await axios.get(
-              `${BASE_URL}/order/transaction-detail/${item.no_order}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            return detailResponse.data.payload;
-          })
-        );
-
-        setDetailedOrders(detailedData);
+        const { orderItems, detailedOrders } = await fetchOrder();
+        setOrderItems(orderItems);
+        setDetailedOrders(detailedOrders);
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        console.error("Error fetching data product & category", error);
       }
     };
 
-    fetchOrder();
+    fetchData();
   }, []);
 
   return (
@@ -199,8 +155,13 @@ const Order = () => {
                                   </span>
                                 ) : item.status_bayar === 1 &&
                                   item.status_order === 0 ? (
-                                  <span className="badge text-bg-info">
-                                    Menunggu Konfirmasi
+                                  <span className="badge text-bg-success">
+                                    Menunggu Verifikasi
+                                  </span>
+                                ) : item.status_bayar === 1 &&
+                                  item.status_order === 1 ? (
+                                  <span className="badge text-bg-warning">
+                                    Dikemas
                                   </span>
                                 ) : null}
                               </p>
@@ -259,12 +220,12 @@ const Order = () => {
                                 <tr>
                                   <td>Bank Mandiri</td>
                                   <td>132-003600-0009</td>
-                                  <td>RAFR</td>
+                                  <td>Mebelin Furniture</td>
                                 </tr>
                                 <tr>
                                   <td>Bank Central Asia (BCA)</td>
                                   <td>6280-66-9600</td>
-                                  <td>RAFR</td>
+                                  <td>Mebelin Furniture</td>
                                 </tr>
                               </tbody>
                             </table>
