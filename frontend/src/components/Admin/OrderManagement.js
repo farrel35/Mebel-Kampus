@@ -1,27 +1,75 @@
 // src/components/Admin/OrderManagement.js
 import React, { useState, useEffect } from "react";
 import "../../css/AdminManagement.css";
-import { fetchOrder } from "./HandleAPI_Admin";
+import { fetchOrder, updateStatusOrder } from "./HandleAPI_Admin";
 
 const OrderManagement = () => {
   const [orderItems, setOrderItems] = useState([]);
   const [detailedOrders, setDetailedOrders] = useState([]);
   const [buktibayarModalOpen, setBuktiBayarModalOpen] = useState(false);
+  const [kirimModalOpen, setKirimModalOpen] = useState(false);
   const [currentOrderId, setCurrentOrderId] = useState(null);
+  const [noResi, setNoResi] = useState("");
 
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
   });
 
-  const openBuktiBayarModal = (id_product) => {
-    setCurrentOrderId(id_product);
+  const openBuktiBayarModal = (no_order) => {
+    setCurrentOrderId(no_order);
     setBuktiBayarModalOpen(true);
   };
 
   const closeBuktiBayarModal = () => {
     setCurrentOrderId(null);
     setBuktiBayarModalOpen(false);
+  };
+
+  const openKirimModal = (no_order) => {
+    setNoResi("");
+    setCurrentOrderId(no_order);
+    setKirimModalOpen(true);
+  };
+
+  const closeKirimModal = () => {
+    setCurrentOrderId(null);
+    setKirimModalOpen(false);
+  };
+
+  const prosesOrder = async (no_order) => {
+    const update = await updateStatusOrder(1, no_order, noResi);
+    if (update) {
+      const fetchData = async () => {
+        try {
+          const { orderItems, detailedOrders } = await fetchOrder();
+          setOrderItems(orderItems);
+          setDetailedOrders(detailedOrders);
+        } catch (error) {
+          console.error("Error fetching data", error);
+        }
+      };
+
+      fetchData();
+    }
+  };
+
+  const prosesKirim = async (no_order, noResi) => {
+    const update = await updateStatusOrder(2, no_order, noResi);
+    if (update) {
+      const fetchData = async () => {
+        try {
+          const { orderItems, detailedOrders } = await fetchOrder();
+          setOrderItems(orderItems);
+          setDetailedOrders(detailedOrders);
+        } catch (error) {
+          console.error("Error fetching data", error);
+        }
+      };
+
+      fetchData();
+    }
+    closeKirimModal();
   };
 
   useEffect(() => {
@@ -87,7 +135,7 @@ const OrderManagement = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    {item.status_bayar === 1 && (
+                    {item.status_bayar === 1 && item.status_order === 0 ? (
                       <div style={{ display: "flex", flexDirection: "column" }}>
                         <button
                           type="button"
@@ -101,12 +149,28 @@ const OrderManagement = () => {
                           type="button"
                           className="bayar-button"
                           style={{ marginBottom: "10px" }}
-                          // onClick={() => openBuktiBayarModal(item.no_order)}
+                          onClick={() => prosesOrder(item.no_order)}
                         >
                           Proses
                         </button>
                       </div>
-                    )}
+                    ) : item.status_bayar === 1 && item.status_order === 1 ? (
+                      <button
+                        type="button"
+                        className="bayar-button"
+                        style={{ marginBottom: "10px" }}
+                        onClick={() => openKirimModal(item.no_order)}
+                      >
+                        Kirim
+                      </button>
+                    ) : item.status_bayar === 1 && item.status_order === 2 ? (
+                      <div>
+                        <h6 className="mb-0 fw-bold">No Resi</h6>
+                        <p className="mb-0 opacity-75">
+                          <h6>{item.no_resi}</h6>
+                        </p>
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="col-2 text-end">
@@ -124,6 +188,8 @@ const OrderManagement = () => {
                         </span>
                       ) : item.status_bayar === 1 && item.status_order === 1 ? (
                         <span className="badge text-bg-warning">Dikemas</span>
+                      ) : item.status_bayar === 1 && item.status_order === 2 ? (
+                        <span className="badge text-bg-success">Dikirim</span>
                       ) : null}
                     </p>
                   </div>
@@ -214,6 +280,110 @@ const OrderManagement = () => {
                       .image_bayar
                   }`}
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {kirimModalOpen && (
+        <div
+          className="modal fade show"
+          style={{
+            display: "block",
+            paddingLeft: "17px",
+          }}
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">
+                  {
+                    orderItems.find((item) => item.no_order === currentOrderId)
+                      .no_order
+                  }
+                </h4>
+                <button
+                  className="btn-close"
+                  type="button"
+                  onClick={closeKirimModal}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <table className="table">
+                  <tbody>
+                    <tr>
+                      <th>Nama Penerima</th>
+                      <th>:</th>
+                      <td>
+                        {
+                          orderItems.find(
+                            (item) => item.no_order === currentOrderId
+                          ).nama_penerima
+                        }
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>No Penerima</th>
+                      <th>:</th>
+                      <td>
+                        {
+                          orderItems.find(
+                            (item) => item.no_order === currentOrderId
+                          ).tlp_penerima
+                        }
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Alamat Penerima</th>
+                      <th>:</th>
+                      <td>
+                        {
+                          orderItems.find(
+                            (item) => item.no_order === currentOrderId
+                          ).alamat_penerima
+                        }
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Biaya Ongkir</th>
+                      <th>:</th>
+                      <td>
+                        {formatter.format(
+                          orderItems.find(
+                            (item) => item.no_order === currentOrderId
+                          ).ongkir
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>No Resi</th>
+                      <th>:</th>
+                      <td>
+                        <input
+                          className="form-control"
+                          name="no_resi"
+                          value={noResi}
+                          onChange={(e) => setNoResi(e.target.value)}
+                          placeholder="Masukan no resi"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="text-end">
+                  <button
+                    className="bayar-button"
+                    onClick={() => {
+                      const no_order = orderItems.find(
+                        (item) => item.no_order === currentOrderId
+                      )?.no_order;
+                      prosesKirim(no_order, noResi);
+                    }}
+                  >
+                    Kirim
+                  </button>
+                </div>
               </div>
             </div>
           </div>

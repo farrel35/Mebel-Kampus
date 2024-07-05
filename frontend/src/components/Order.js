@@ -62,7 +62,21 @@ const Order = () => {
     formData.append("no_rekening", buktiBayar.accountNumber);
     formData.append("image", file);
 
-    await updateStatusBayar(formData, currentOrderId);
+    const update = await updateStatusBayar(formData, currentOrderId);
+    if (update) {
+      const fetchData = async () => {
+        try {
+          const { orderItems, detailedOrders } = await fetchOrder();
+          setOrderItems(orderItems);
+          setDetailedOrders(detailedOrders);
+        } catch (error) {
+          console.error("Error fetching data ", error);
+        }
+      };
+
+      fetchData();
+    }
+    closeBayarModal();
   };
 
   useEffect(() => {
@@ -72,7 +86,7 @@ const Order = () => {
         setOrderItems(orderItems);
         setDetailedOrders(detailedOrders);
       } catch (error) {
-        console.error("Error fetching data product & category", error);
+        console.error("Error fetching data ", error);
       }
     };
 
@@ -136,7 +150,8 @@ const Order = () => {
                               </div>
                             </div>
                             <div className="col-2">
-                              {item.status_bayar === 0 && (
+                              {item.status_bayar === 0 &&
+                              item.status_order === 0 ? (
                                 <button
                                   type="button"
                                   className="bayar-button"
@@ -144,14 +159,23 @@ const Order = () => {
                                 >
                                   Bayar Sekarang
                                 </button>
-                              )}
+                              ) : item.status_bayar === 1 &&
+                                item.status_order === 2 ? (
+                                <div>
+                                  <h6 className="mb-0 fw-bold">No Resi</h6>
+                                  <p className="mb-0 opacity-75">
+                                    <h6>{item.no_resi}</h6>
+                                  </p>
+                                </div>
+                              ) : null}
                             </div>
                             <div className="col-2 text-end">
                               <small className="opacity-50 text-nowrap">
                                 {new Date(item.order_date).toLocaleDateString()}
                               </small>
                               <p className="mb-0">
-                                {item.status_bayar === 0 ? (
+                                {item.status_bayar === 0 &&
+                                item.status_order === 0 ? (
                                   <span className="badge text-bg-warning">
                                     Belum Bayar
                                   </span>
@@ -164,6 +188,11 @@ const Order = () => {
                                   item.status_order === 1 ? (
                                   <span className="badge text-bg-warning">
                                     Dikemas
+                                  </span>
+                                ) : item.status_bayar === 1 &&
+                                  item.status_order === 2 ? (
+                                  <span className="badge text-bg-success">
+                                    Dikirim
                                   </span>
                                 ) : null}
                               </p>
@@ -179,8 +208,8 @@ const Order = () => {
           </div>
 
           {bayarModalOpen && (
-            <div className="modal">
-              <div className="modal-content-order">
+            <div className="modal-new">
+              <div className="modal-new-content-order">
                 <div className="modal-header">
                   <h5 className="modal-title">Pembayaran</h5>
                   <button

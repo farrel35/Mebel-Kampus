@@ -143,7 +143,16 @@ const updateStatusBayar = async (req, res) => {
     const sql = `UPDATE tbl_transaction SET status_bayar = 1, image_bayar = ?, atas_nama = ?, nama_bank = ?, no_rekening = ? WHERE no_order = ?`;
     await db.query(sql, [image, atas_nama, nama_bank, no_rekening, no_order]);
 
-    res.status(200).json({ message: "Status pembayaran berhasil diperbarui" });
+    const [updatedOrderItem] = await db.query(
+      `SELECT * FROM tbl_transaction WHERE no_order = ?`,
+      [no_order]
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Status order berhasil diperbarui",
+      updatedOrder: updatedOrderItem,
+    });
   } catch (error) {
     console.error("Error updating status bayar:", error.message);
     res.status(500).send("Server error");

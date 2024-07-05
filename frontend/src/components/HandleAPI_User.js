@@ -498,7 +498,7 @@ export const updateStatusBayar = async (formData, currentOrderId) => {
   }
 
   try {
-    await axios.put(
+    const response = await axios.put(
       `${BASE_URL}/order/transaction-detail/edit/${currentOrderId}`,
       formData,
       {
@@ -513,11 +513,8 @@ export const updateStatusBayar = async (formData, currentOrderId) => {
       text: "Berhasil Bayar.",
       icon: "success",
       confirmButtonText: "OK",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.reload();
-      }
     });
+    return response.data;
   } catch (error) {
     console.error("Error submitting payment:", error);
   }

@@ -533,3 +533,40 @@ export const fetchOrder = async () => {
     console.error("Error fetching orders:", error);
   }
 };
+
+export const updateStatusOrder = async (statusOrder, noOrder, noResi) => {
+  try {
+    const token = localStorage.getItem("token");
+    const payload = { status_order: statusOrder };
+
+    if (noResi) {
+      payload.no_resi = noResi;
+    }
+    const response = await axios.put(
+      `http://localhost:4000/admin/transaction-detail/edit/${noOrder}`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    Swal.fire({
+      title: "Sukses!",
+      text: "Sukses update status order.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating status order:", error);
+    Swal.fire({
+      title: "Error",
+      text: "Gagal update status order.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+  }
+};

@@ -50,6 +50,11 @@ router.post(
 router.get("/transaction", adminController.getOrder);
 router.get("/transaction-detail/:no_order", adminController.getDetailOrder);
 
+router.put(
+  "/transaction-detail/edit/:no_order",
+  adminController.updateStatusOrder
+);
+
 // // Routes untuk riwayat transaksi
 // router.get("/", adminController.getTransactionHistory);
 // router.post("/transaction_history", adminController.createTransactionHistory);

@@ -622,6 +622,41 @@ const getDetailOrder = async (req, res) => {
   }
 };
 
+const updateStatusOrder = async (req, res) => {
+  const { no_order } = req.params;
+  const { status_order, no_resi } = req.body;
+
+  try {
+    const [orderItem] = await db.query(
+      `SELECT * FROM tbl_transaction WHERE no_order = ?`,
+      [no_order]
+    );
+
+    if (!orderItem) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order tidak ditemukan" });
+    }
+
+    const sql = `UPDATE tbl_transaction SET status_order = ?, no_resi = ? WHERE no_order = ?`;
+    await db.query(sql, [status_order, no_resi, no_order]);
+
+    const [updatedOrderItem] = await db.query(
+      `SELECT * FROM tbl_transaction WHERE no_order = ?`,
+      [no_order]
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Status order berhasil diperbarui",
+      updatedOrder: updatedOrderItem,
+    });
+  } catch (error) {
+    console.error("Error updating status order:", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -643,4 +678,5 @@ module.exports = {
   deleteTransactionHistory,
   getOrder,
   getDetailOrder,
+  updateStatusOrder,
 };
