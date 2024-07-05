@@ -73,6 +73,14 @@ const Cart = () => {
       return;
     }
 
+    // Check if any item has an invalid quantity
+    for (const item of cartItems) {
+      if (item.quantity > item.stock) {
+        setError(`Stok ${item.product_name} habis.`);
+        return;
+      }
+    }
+
     const formData = new FormData();
     formData.append("nama_penerima", shippingInfo.name);
     formData.append("tlp_penerima", shippingInfo.phoneNumber);
@@ -85,6 +93,7 @@ const Cart = () => {
       await checkoutCart(cartItems, formData);
     } catch (error) {
       console.error("Failed to place order:", error);
+      setError("Failed to place order. Please try again.");
     }
   };
 
