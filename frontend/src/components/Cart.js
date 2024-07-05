@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import BackToTopButton from "./BackToTopButton";
 import "../css/Cart.css";
 import {
+  fetchUserData,
   fetchProducts,
   fetchCart,
   deleteCartItem,
@@ -18,13 +19,28 @@ const Cart = () => {
   const [error, setError] = useState("");
 
   const ongkir = 100000;
+  const [userData, setUserData] = useState(false);
 
   const [shippingInfo, setShippingInfo] = useState({
-    name: "",
+    name: userData.username,
     address: "",
     phoneNumber: "",
     paymentMethod: "",
   });
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const data = await fetchUserData();
+
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    getUserData();
+  }, []);
 
   useEffect(() => {
     const getCart = async () => {
@@ -53,6 +69,17 @@ const Cart = () => {
 
     getCart();
   }, []);
+
+  useEffect(() => {
+    if (userData) {
+      setShippingInfo({
+        name: userData.username || "",
+        address: userData.alamat || "",
+        phoneNumber: userData.no_hp || "",
+        paymentMethod: "",
+      });
+    }
+  }, [userData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
