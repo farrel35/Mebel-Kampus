@@ -304,9 +304,14 @@ const Navbar = () => {
                     </a>
                     <ul className="dropdown-menu dropdown-menu-end">
                       <li>
-                        <a className="dropdown-item" href="/profile">
+                        <Link to="/profile" className="dropdown-item">
                           Profile
-                        </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/order" className="dropdown-item">
+                          Pesanan Saya
+                        </Link>
                       </li>
                       {isAdmin && (
                         <li>

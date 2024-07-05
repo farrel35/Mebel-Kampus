@@ -1,8 +1,6 @@
 // src/components/ProductDetail.js
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import BackToTopButton from "./BackToTopButton";
@@ -14,6 +12,7 @@ import {
   fetchCategories,
 } from "./HandleAPI_User";
 import { addToCart } from "./HandleAPI_User";
+import Swal from "sweetalert2";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -78,6 +77,16 @@ const ProductDetail = () => {
   });
 
   const handleAddToCart = async (product) => {
+    if (quantity > product.stock) {
+      Swal.fire({
+        title: "Error!",
+        text: "Stok produk kosong.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     addToCart(product, quantity);
   };
 
@@ -138,8 +147,8 @@ const ProductDetail = () => {
                   className="form-control text-center me-3"
                   id="inputQuantity"
                   type="number"
-                  defaultValue={1}
-                  min={1}
+                  defaultValue={0}
+                  min={0}
                   max={product.stock}
                   style={{ maxWidth: "4rem" }}
                   onChange={(e) => setQuantity(parseInt(e.target.value))}
