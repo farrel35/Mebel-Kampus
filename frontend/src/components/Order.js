@@ -10,22 +10,79 @@ const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
   const [detailedOrders, setDetailedOrders] = useState([]);
   const [bayarModalOpen, setBayarModalOpen] = useState(false);
-  const [currentOrderId, setCurrentOrderId] = useState(null); // State to track the current order ID being processed
+  const [currentOrderId, setCurrentOrderId] = useState(null);
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState("");
 
-  const openBayarModal = async (id_product) => {
-    setCurrentOrderId(id_product); // Set the current order ID before opening the modal
-    setBayarModalOpen(true);
-  };
-
-  const closeBayarModal = () => {
-    setCurrentOrderId(null); // Clear the current order ID when closing the modal
-    setBayarModalOpen(false);
-  };
+  const [buktiBayar, setBuktiBayar] = useState({
+    bankName: "",
+    accountOwner: "",
+    accountNumber: "",
+  });
 
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
   });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setBuktiBayar((prevInfo) => ({ ...prevInfo, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+  };
+
+  const openBayarModal = (id_product) => {
+    setCurrentOrderId(id_product);
+    setBayarModalOpen(true);
+  };
+
+  const closeBayarModal = () => {
+    setCurrentOrderId(null);
+    setBayarModalOpen(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !buktiBayar.bankName ||
+      !buktiBayar.accountOwner ||
+      !buktiBayar.accountNumber ||
+      !file
+    ) {
+      setError("All fields are required.");
+      return;
+    }
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("nama_bank", buktiBayar.bankName);
+      formData.append("atas_nama", buktiBayar.accountOwner);
+      formData.append("no_rekening", buktiBayar.accountNumber);
+      formData.append("image", file);
+
+      const token = localStorage.getItem("token");
+
+      await axios.put(
+        `${BASE_URL}/order/transaction-detail/edit/${currentOrderId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      closeBayarModal();
+    } catch (error) {
+      console.error("Error submitting payment:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -43,7 +100,6 @@ const Order = () => {
         });
         setOrderItems(response.data.payload);
 
-        // Fetch detailed order information for each order item
         const detailedData = await Promise.all(
           response.data.payload.map(async (item) => {
             const detailResponse = await axios.get(
@@ -106,7 +162,6 @@ const Order = () => {
                                         {detail.product_name} x{" "}
                                         {detail.quantity}
                                       </h6>
-                                      {/* Add more details as needed */}
                                     </div>
                                   ))}
                               </p>
@@ -127,11 +182,16 @@ const Order = () => {
                                 {new Date(item.order_date).toLocaleDateString()}
                               </small>
                               <p className="mb-0">
-                                {item.status_bayar === 0 && (
+                                {item.status_bayar === 0 ? (
                                   <span className="badge text-bg-warning">
                                     Belum Bayar
                                   </span>
-                                )}
+                                ) : item.status_bayar === 1 &&
+                                  item.status_order === 0 ? (
+                                  <span className="badge text-bg-info">
+                                    Menunggu Konfirmasi
+                                  </span>
+                                ) : null}
                               </p>
                             </div>
                           </div>
@@ -204,36 +264,44 @@ const Order = () => {
                     <div className="col-6">
                       <div className="card card-primary">
                         <div className="card-body">
-                          <form>
+                          {error && (
+                            <div className="alert alert-danger">{error}</div>
+                          )}
+
+                          <form onSubmit={handleSubmit}>
                             <div className="form-group">
                               <label>Nama Bank:</label>
                               <input
                                 type="text"
                                 name="bankName"
                                 className="form-control"
+                                onChange={handleInputChange}
                               />
                               <label>Nama Pemilik Rekening:</label>
                               <input
                                 type="text"
                                 name="accountOwner"
                                 className="form-control"
+                                onChange={handleInputChange}
                               />
                               <label>No rekening:</label>
                               <input
                                 type="text"
                                 name="accountNumber"
                                 className="form-control"
+                                onChange={handleInputChange}
                               />
 
                               <label>Bukti Bayar:</label>
                               <input
                                 type="file"
                                 className="form-control-file"
+                                onChange={handleFileChange}
                               />
                             </div>
 
                             <button
-                              type="button"
+                              type="submit"
                               className="btn btn-edit-admin"
                             >
                               Bayar

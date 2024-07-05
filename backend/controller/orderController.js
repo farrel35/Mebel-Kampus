@@ -120,6 +120,8 @@ const getDetailOrder = async (req, res) => {
 
 const updateStatusBayar = async (req, res) => {
   const { no_order } = req.params;
+  const { nama_bank, atas_nama, no_rekening } = req.body;
+
   let image = null;
 
   try {
@@ -138,8 +140,8 @@ const updateStatusBayar = async (req, res) => {
     }
 
     // Update jumlah barang di keranjang
-    const sql = `UPDATE tbl_transaction SET status_bayar = 1, image_bayar = ? WHERE no_order = ?`;
-    await db.query(sql, [image, no_order]);
+    const sql = `UPDATE tbl_transaction SET status_bayar = 1, image_bayar = ?, atas_nama = ?, nama_bank = ?, no_rekening = ? WHERE no_order = ?`;
+    await db.query(sql, [image, atas_nama, nama_bank, no_rekening, no_order]);
 
     res.status(200).json({ message: "Status pembayaran berhasil diperbarui" });
   } catch (error) {
