@@ -231,3 +231,11 @@
 .product-description {
   white-space: pre-line; /* Ensures that whitespace is preserved and respects line breaks in the text */
 }
+#imageMagnifyer {
+  width: 400px;
+  height: 400px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  margin: auto;
+}

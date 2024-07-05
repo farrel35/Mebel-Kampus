@@ -13,6 +13,7 @@ import {
 } from "./HandleAPI_User";
 import { addToCart } from "./HandleAPI_User";
 import Swal from "sweetalert2";
+import ReactImageMagnify from "react-image-magnify";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -105,11 +106,24 @@ const ProductDetail = () => {
         <div className="container px-4 px-lg-5 my-5">
           <div className="row gx-4 gx-lg-5 align-items-center">
             <div className="col-md-6">
-              <img
-                src={mainImage}
-                alt="Product"
-                className="card-img-product mb-5 mb-md-0"
-              />
+              <div id="imageMagnifyer">
+                <ReactImageMagnify
+                  {...{
+                    smallImage: {
+                      alt: "Wristwatch by Ted Baker London",
+                      isFluidWidth: true,
+                      src: mainImage,
+                    },
+                    largeImage: {
+                      src: mainImage,
+                      width: 1000,
+                      height: 1500,
+                    },
+                    isHintEnabled: true,
+                  }}
+                />
+              </div>
+
               <div className="d-flex flex-wrap mt-3 justify-content-center">
                 <img
                   src={primaryImage}
@@ -147,8 +161,8 @@ const ProductDetail = () => {
                   className="form-control text-center me-3"
                   id="inputQuantity"
                   type="number"
-                  defaultValue={0}
-                  min={0}
+                  defaultValue={1}
+                  min={1}
                   max={product.stock}
                   style={{ maxWidth: "4rem" }}
                   onChange={(e) => setQuantity(parseInt(e.target.value))}
