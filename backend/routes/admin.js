@@ -47,17 +47,20 @@ router.post(
   adminController.createCategory
 );
 
-// Routes untuk riwayat transaksi
-router.get("/", adminController.getTransactionHistory);
-router.post("/transaction_history", adminController.createTransactionHistory);
-router.get("/transaction_history/:id", adminController.getTransactionHistory);
-router.put(
-  "/transaction_history/:id",
-  adminController.updateTransactionHistory
-);
-router.delete(
-  "/transaction_history/:id",
-  adminController.deleteTransactionHistory
-);
+router.get("/transaction", adminController.getOrder);
+router.get("/transaction-detail/:no_order", adminController.getDetailOrder);
+
+// // Routes untuk riwayat transaksi
+// router.get("/", adminController.getTransactionHistory);
+// router.post("/transaction_history", adminController.createTransactionHistory);
+// router.get("/transaction_history/:id", adminController.getTransactionHistory);
+// router.put(
+//   "/transaction_history/:id",
+//   adminController.updateTransactionHistory
+// );
+// router.delete(
+//   "/transaction_history/:id",
+//   adminController.deleteTransactionHistory
+// );
 
 module.exports = router;

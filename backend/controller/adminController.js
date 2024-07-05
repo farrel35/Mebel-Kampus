@@ -586,6 +586,42 @@ const deleteTransactionHistory = async (id_order) => {
   }
 };
 
+const getOrder = async (req, res) => {
+  try {
+    const sql = "SELECT * FROM tbl_transaction";
+    const [rows, fields] = await db.query(sql);
+    res.json({
+      payload: rows,
+      message: "Success Show Transaction!",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err,
+    });
+  }
+};
+
+const getDetailOrder = async (req, res) => {
+  const { no_order } = req.params;
+
+  try {
+    const sql = ` SELECT dt.*, p.product_name, p.price, p.image FROM tbl_detail_transaction dt JOIN tbl_products p ON dt.id_product = p.id_product WHERE dt.no_order = ? `;
+    const [rows, fields] = await db.query(sql, [no_order]);
+    res.json({
+      payload: rows,
+      message: "Success Show Detail Transaction!",
+    });
+  } catch (err) {
+    console.error("Error executing query:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+      serverMessage: err,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -605,4 +641,6 @@ module.exports = {
   createTransactionHistory,
   updateTransactionHistory,
   deleteTransactionHistory,
+  getOrder,
+  getDetailOrder,
 };
