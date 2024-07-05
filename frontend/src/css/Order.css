@@ -18,3 +18,18 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative; /* Add position relative for the close button */
 }
+
+.bayar-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #294b29;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bayar-button:hover {
+  background-color: #152515;
+}

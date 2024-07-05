@@ -139,45 +139,56 @@ const Order = () => {
                     <div className="list-group">
                       {orderItems.map((item, index) => (
                         <div
-                          className="list-group-item list-group-item-action d-flex gap-3 py-3"
+                          className="list-group-item list-group-item-action py-3"
                           key={item.no_order}
                         >
-                          <div className="d-flex gap-2 w-100 justify-content-between align-items-center">
-                            <div>
-                              <h6 className="mb-0 fw-bold">
-                                No Order : {item.no_order}
-                              </h6>
-                              <p className="mb-0 opacity-75">
-                                Total Bayar :{" "}
-                                {formatter.format(item.total_bayar)}
-                              </p>
+                          <div className="row align-items-center">
+                            <div className="col-4">
+                              <div>
+                                <h6 className="mb-0 fw-bold">
+                                  No Order : {item.no_order}
+                                </h6>
+                                <p className="mb-0 opacity-75">
+                                  Total Bayar :{" "}
+                                  {formatter.format(item.total_bayar)}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <h6 className="mb-0 fw-bold">Detail Pesanan</h6>
-                              <p className="mb-0 opacity-75">
-                                {detailedOrders[index] &&
-                                  detailedOrders[index].map((detail) => (
-                                    <div key={detail.id_detail}>
-                                      <h6>
-                                        {detail.product_name} x{" "}
-                                        {detail.quantity}
-                                      </h6>
-                                    </div>
-                                  ))}
-                              </p>
+                            <div className="col-4">
+                              <div>
+                                <h6 className="mb-0 fw-bold">Detail Pesanan</h6>
+                                <p className="mb-0 opacity-75">
+                                  {detailedOrders[index] &&
+                                    detailedOrders[index].map((detail) => (
+                                      <div key={detail.id_detail}>
+                                        <h6>
+                                          <img
+                                            alt="Product"
+                                            className="flex-shrink-0"
+                                            height="64"
+                                            src={`http://localhost:4000${detail.image}`}
+                                            width="64"
+                                          />
+                                          {detail.product_name} x{" "}
+                                          {detail.quantity}
+                                        </h6>
+                                      </div>
+                                    ))}
+                                </p>
+                              </div>
                             </div>
-                            <div>
+                            <div className="col-2">
                               {item.status_bayar === 0 && (
                                 <button
                                   type="button"
-                                  className="edit-button"
+                                  className="bayar-button"
                                   onClick={() => openBayarModal(item.no_order)}
                                 >
                                   Bayar Sekarang
                                 </button>
                               )}
                             </div>
-                            <div className="text-end">
+                            <div className="col-2 text-end">
                               <small className="opacity-50 text-nowrap">
                                 {new Date(item.order_date).toLocaleDateString()}
                               </small>
