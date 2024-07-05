@@ -122,8 +122,8 @@ const ProductImageManagement = () => {
         </table>
       </div>
       {addModalOpen && (
-        <div className="modal">
-          <div className="modal-content-admin">
+        <div className="modal-new">
+          <div className="modal-new-content-admin">
             <div className="modal-header">
               <h5 className="modal-title">Tambah Produk</h5>
               <button type="button" className="close" onClick={closeAddModal}>

@@ -252,8 +252,8 @@ const ProductManagement = () => {
 
       {/* Edit Product Modal */}
       {editModalOpen && selectedProduct && (
-        <div className="modal">
-          <div className="modal-content-admin">
+        <div className="modal-new">
+          <div className="modal-new-content-admin">
             <div className="modal-header">
               <h5 className="modal-title">Edit Produk</h5>
               <button type="button" className="close" onClick={closeEditModal}>
@@ -364,8 +364,8 @@ const ProductManagement = () => {
 
       {/* Create Product Modal */}
       {createModalOpen && (
-        <div className="modal">
-          <div className="modal-content-admin">
+        <div className="modal-new">
+          <div className="modal-new-content-admin">
             <div className="modal-header">
               <h5 className="modal-title">Tambah Produk</h5>
               <button

@@ -78,7 +78,9 @@ const Order = () => {
 
     fetchData();
   }, []);
-
+  if (!orderItems || !detailedOrders) {
+    return;
+  }
   return (
     <>
       <Navbar />

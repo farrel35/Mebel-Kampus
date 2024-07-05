@@ -44,7 +44,7 @@
 }
 
 /* Modal Styles */
-.modal {
+.modal-new {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,7 +58,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.modal-new-content {
   background-color: #fefefe;
   padding: 20px;
   border: 1px solid #888;
@@ -85,24 +85,24 @@
   text-decoration: none;
 }
 
-.modal h2 {
+.modal-new h2 {
   margin-bottom: 1rem;
 }
 
-.modal form label {
+.modal-new form label {
   display: block;
   margin: 1rem 0 0.5rem 0;
   font-weight: bold;
 }
 
-.modal form input {
+.modal-new form input {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.modal .btn-edit-profile {
+.modal-new .btn-edit-profile {
   display: block;
   width: 100%;
   margin-top: 1rem;
@@ -116,7 +116,7 @@
   transition: background-color 0.3s ease;
 }
 
-.modal .btn-edit-profile:hover {
+.modal-new .btn-edit-profile:hover {
   background-color: #294b29;
   color: #fff;
 }

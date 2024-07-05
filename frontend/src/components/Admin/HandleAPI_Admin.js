@@ -490,3 +490,46 @@ export const changeRole = async (userId, newRole) => {
     console.error("Error updating user role:", error);
   }
 };
+
+export const fetchOrder = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    Swal.fire({
+      title: "Error!",
+      text: "Anda harus login.",
+      icon: "error",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/login";
+      }
+    });
+    return;
+  }
+
+  try {
+    const response = await axios.get(`${BASE_URL}/admin/transaction`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const detailedData = await Promise.all(
+      response.data.payload.map(async (item) => {
+        const detailResponse = await axios.get(
+          `${BASE_URL}/admin/transaction-detail/${item.no_order}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return detailResponse.data.payload;
+      })
+    );
+    return { orderItems: response.data.payload, detailedOrders: detailedData };
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+  }
+};

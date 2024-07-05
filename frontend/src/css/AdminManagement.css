@@ -150,7 +150,7 @@
   border-radius: 3px;
 }
 
-.modal-content-admin {
+.modal-new-content-admin {
   background-color: #fefefe;
   padding: 20px;
   border: 1px solid #888;
@@ -178,7 +178,7 @@
   color: #fff;
 }
 
-.modal .btn-edit-admin {
+.modal-new .btn-edit-admin {
   display: block;
   width: 100%;
   margin-top: 1rem;
@@ -192,7 +192,7 @@
   transition: background-color 0.3s ease;
 }
 
-.modal .btn-edit-admin:hover {
+.modal-new .btn-edit-admin:hover {
   background-color: #294b29;
   color: #fff;
 }

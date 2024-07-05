@@ -186,8 +186,8 @@ const CategoryManagement = () => {
       </div>
 
       {editModalOpen && selectedCategory && (
-        <div className="modal">
-          <div className="modal-content-admin">
+        <div className="modal-new">
+          <div className="modal-new-content-admin">
             <div className="modal-header">
               <h5 className="modal-title">Edit Produk</h5>
               <button type="button" className="close" onClick={closeEditModal}>
@@ -261,8 +261,8 @@ const CategoryManagement = () => {
       )}
 
       {createModalOpen && (
-        <div className="modal">
-          <div className="modal-content-admin">
+        <div className="modal-new">
+          <div className="modal-new-content-admin">
             <div className="modal-header">
               <h5 className="modal-title">Tambah Kategori</h5>
               <button

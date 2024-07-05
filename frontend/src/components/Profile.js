@@ -105,8 +105,8 @@ const Profile = () => {
 
         {/* Modal */}
         {modalOpen && (
-          <div className="modal">
-            <div className="modal-content">
+          <div className="modal-new">
+            <div className="modal-new-content">
               <span className="close" onClick={closeModal}>
                 &times;
               </span>
