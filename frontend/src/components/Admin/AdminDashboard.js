@@ -90,19 +90,19 @@ const AdminDashboard = () => {
         <hr className="sidebar-divider" /> {/* Garis pemisah */}
         <div className="admin-links">
           <button onClick={showProductManagement}>
-            <i className="fas fa-box"></i> Manage Products
+            <i className="fas fa-box"></i> Kelola Produk
           </button>
           <button onClick={showProductImageManagement}>
-            <i className="fas fa-box"></i> Manage Image Products
+            <i className="fas fa-box"></i> Kelola Foto Produk
           </button>
           <button onClick={showCategoryManagement}>
-            <i className="fas fa-tags"></i> Manage Categories
+            <i className="fas fa-tags"></i> Kelola Kategori
           </button>
           <button onClick={showOrderManagement}>
-            <i className="fas fa-shopping-cart"></i> Manage Orders
+            <i className="fas fa-shopping-cart"></i> Kelola Order
           </button>
           <button onClick={showUserManagement}>
-            <i className="fas fa-users"></i> Manage Users
+            <i className="fas fa-users"></i> Kelola Pengguna
           </button>
 
           {/* Tambahkan tautan lainnya di sini */}
@@ -116,17 +116,17 @@ const AdminDashboard = () => {
             <p>{totalOrders}</p>
           </div>
           <div className="dashboard-card">
-            <h2>Total Products</h2>
+            <h2>Total Produk</h2>
             <p>{totalProducts}</p>
           </div>
           {/* Card untuk jumlah kategori */}
           <div className="dashboard-card">
-            <h2>Total Categories</h2>
+            <h2>Total Kategori</h2>
             <p>{totalCategories}</p>
           </div>
           {/* Card untuk jumlah pengguna */}
           <div className="dashboard-card">
-            <h2>Total Users</h2>
+            <h2>Total Pengguna</h2>
             <p>{totalUsers}</p>
           </div>
         </div>

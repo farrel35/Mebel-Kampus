@@ -199,7 +199,7 @@ const ProductImageManagement = () => {
                                   handleDeleteImageProduct(img.id_image)
                                 }
                               >
-                                Delete
+                                Hapus
                               </button>
                             </div>
                           </div>

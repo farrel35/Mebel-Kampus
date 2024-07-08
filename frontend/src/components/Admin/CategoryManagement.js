@@ -176,7 +176,7 @@ const CategoryManagement = () => {
                     className="btn btn-danger btn-delete"
                     onClick={() => handleDeleteCategory(category.id_category)}
                   >
-                    Delete
+                    Hapus
                   </button>
                 </td>
               </tr>

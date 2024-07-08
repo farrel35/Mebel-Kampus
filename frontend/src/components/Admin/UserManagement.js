@@ -36,7 +36,7 @@ const UserManagement = () => {
 
   return (
     <div className="container-fluid container-admin">
-      <h2>Manage Users</h2>
+      <h2>Kelola Pengguna</h2>
       <div className="table-responsive">
         <table className="table table-admin">
           <thead className="thead-light">
