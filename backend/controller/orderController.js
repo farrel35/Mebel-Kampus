@@ -84,7 +84,8 @@ const getOrder = async (req, res) => {
   const id_user = req.user.id_user;
 
   try {
-    const sql = "SELECT * FROM tbl_transaction WHERE id_user = ?";
+    const sql =
+      "SELECT * FROM tbl_transaction WHERE id_user = ? ORDER BY status_bayar DESC";
     const [rows, fields] = await db.query(sql, [id_user]);
     res.json({
       payload: rows,
