@@ -198,12 +198,10 @@ const CategoryManagement = () => {
               <div className="modal-header">
                 <h5 className="modal-title">Edit Produk</h5>
                 <button
+                  className="btn-close"
                   type="button"
-                  className="close"
                   onClick={closeEditModal}
-                >
-                  <span>&times;</span>
-                </button>
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="row">
@@ -283,12 +281,10 @@ const CategoryManagement = () => {
               <div className="modal-header">
                 <h5 className="modal-title">Tambah Kategori</h5>
                 <button
+                  className="btn-close"
                   type="button"
-                  className="close"
                   onClick={closeCreateModal}
-                >
-                  <span>&times;</span>
-                </button>
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="row">

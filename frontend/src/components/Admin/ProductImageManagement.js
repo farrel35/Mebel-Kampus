@@ -133,9 +133,11 @@ const ProductImageManagement = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Tambah Produk</h5>
-                <button type="button" className="close" onClick={closeAddModal}>
-                  <span>&times;</span>
-                </button>
+                <button
+                  className="btn-close"
+                  type="button"
+                  onClick={closeAddModal}
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="row">

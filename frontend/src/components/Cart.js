@@ -18,7 +18,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [error, setError] = useState("");
 
-  const ongkir = 100000;
+  const ongkir = 500000;
   const [userData, setUserData] = useState(false);
 
   const [shippingInfo, setShippingInfo] = useState({

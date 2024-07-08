@@ -153,7 +153,7 @@ const ProductDetail = () => {
                 <h6>Stok : {product.stock}</h6>
                 <span>{formatter.format(product.price)}</span>
               </div>
-              <div className="product-description">
+              <div className="product-description mb-3">
                 <div
                   dangerouslySetInnerHTML={{ __html: product.description }}
                 />

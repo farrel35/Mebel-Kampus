@@ -225,7 +225,15 @@ const ProductManagement = () => {
   if (!products || !categories) {
     return; // or loading indicator
   }
+  const maxLength = 150; // Maximum length of description to show
 
+  // Function to truncate the description
+  const truncateDescription = (description) => {
+    if (description.length <= maxLength) {
+      return description;
+    }
+    return `${description.substring(0, maxLength)}...`;
+  };
   return (
     <div className="container-fluid container-admin">
       <h2>Kelola Produk</h2>
@@ -252,7 +260,9 @@ const ProductManagement = () => {
                 <td>{product.product_name}</td>
                 <td>
                   <div
-                    dangerouslySetInnerHTML={{ __html: product.description }}
+                    dangerouslySetInnerHTML={{
+                      __html: truncateDescription(product.description),
+                    }}
                   />
                 </td>
                 <td>{formatter.format(product.price)}</td>
@@ -292,16 +302,14 @@ const ProductManagement = () => {
               <div className="modal-header">
                 <h5 className="modal-title">Edit Produk</h5>
                 <button
+                  className="btn-close"
                   type="button"
-                  className="close"
                   onClick={closeEditModal}
-                >
-                  <span>&times;</span>
-                </button>
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="row">
-                  <div className="col-lg-7">
+                  <div className="col-lg-8">
                     {error && <div className="alert alert-danger">{error}</div>}
                     <form>
                       <div className="form-group">
@@ -386,7 +394,7 @@ const ProductManagement = () => {
                       </button>
                     </form>
                   </div>
-                  <div className="col-lg-5">
+                  <div className="col-lg-4">
                     {file ? (
                       <img
                         src={URL.createObjectURL(file)}
@@ -422,12 +430,10 @@ const ProductManagement = () => {
               <div className="modal-header">
                 <h5 className="modal-title">Tambah Produk</h5>
                 <button
+                  className="btn-close"
                   type="button"
-                  className="close"
                   onClick={closeCreateModal}
-                >
-                  <span>&times;</span>
-                </button>
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="row">

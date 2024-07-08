@@ -13,7 +13,8 @@ import UserManagement from "./UserManagement";
 import {
   fetchAllUsers,
   fetchProducts,
-  fetchCategories, // Import fetchCategories function
+  fetchCategories,
+  fetchOrder, // Import fetchCategories function
 } from "./HandleAPI_Admin";
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const AdminDashboard = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalCategories, setTotalCategories] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,9 +31,11 @@ const AdminDashboard = () => {
         const productsData = await fetchProducts();
         const categoriesData = await fetchCategories(); // Fetch categories
         const allUsersData = await fetchAllUsers();
+        const { orderItems } = await fetchOrder();
         setTotalProducts(productsData.length);
         setTotalCategories(categoriesData.length); // Assuming categories are in payload[0]
         setTotalUsers(allUsersData.length);
+        setTotalOrders(orderItems.length);
       } catch (error) {
         console.error("Error fetching data product & category", error);
       }
@@ -107,6 +111,10 @@ const AdminDashboard = () => {
       <div className="admin-content">
         <div className="dashboard-cards">
           {/* Card untuk jumlah produk */}
+          <div className="dashboard-card">
+            <h2>Total Order</h2>
+            <p>{totalOrders}</p>
+          </div>
           <div className="dashboard-card">
             <h2>Total Products</h2>
             <p>{totalProducts}</p>
