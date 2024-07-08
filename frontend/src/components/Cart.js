@@ -103,7 +103,7 @@ const Cart = () => {
     // Check if any item has an invalid quantity
     for (const item of cartItems) {
       if (item.quantity > item.stock) {
-        setError(`Stok ${item.product_name} habis.`);
+        setError(`Stok ${item.product_name} tinggal ${item.stock}.`);
         return;
       }
     }
