@@ -33,13 +33,12 @@ CREATE TABLE IF NOT EXISTS `tbl_carts` (
   KEY `id_product` (`id_product`),
   CONSTRAINT `tbl_carts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`),
   CONSTRAINT `tbl_carts_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `tbl_products` (`id_product`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table mebel_kampus.tbl_carts: ~1 rows (approximately)
 DELETE FROM `tbl_carts`;
 INSERT INTO `tbl_carts` (`id_cart`, `id_user`, `id_product`, `quantity`, `added_at`) VALUES
-	(19, 1, 4, 4, '2024-07-05 11:53:09'),
-	(20, 2, 2, 1, '2024-07-05 15:16:58');
+	(5, 1, 1, 4, '2024-07-08 11:58:00');
 
 -- Dumping structure for table mebel_kampus.tbl_categorys
 DROP TABLE IF EXISTS `tbl_categorys`;
@@ -51,15 +50,16 @@ CREATE TABLE IF NOT EXISTS `tbl_categorys` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id_category`),
   UNIQUE KEY `categorys` (`categorys`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mebel_kampus.tbl_categorys: ~4 rows (approximately)
+-- Dumping data for table mebel_kampus.tbl_categorys: ~5 rows (approximately)
 DELETE FROM `tbl_categorys`;
 INSERT INTO `tbl_categorys` (`id_category`, `category_name`, `categorys`, `image`, `created_at`) VALUES
 	(1, 'Meja', 'M001', '/image/1719978409156.png', '2024-07-03 03:46:49'),
 	(2, 'Kursi', 'K001', '/image/1719982137033.png', '2024-07-03 04:48:57'),
 	(3, 'Lemari', 'L001', '/image/1719982394024.jpg', '2024-07-03 04:53:14'),
-	(4, 'Sofa', 'S001', '/image/1719985012707.png', '2024-07-03 05:36:52');
+	(4, 'Sofa', 'S001', '/image/1719985012707.png', '2024-07-03 05:36:52'),
+	(5, 'Rak', 'R001', '/image/1720442813181.png', '2024-07-08 12:46:53');
 
 -- Dumping structure for table mebel_kampus.tbl_comment_products
 DROP TABLE IF EXISTS `tbl_comment_products`;
@@ -87,19 +87,15 @@ CREATE TABLE IF NOT EXISTS `tbl_detail_transaction` (
   `id_product` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_detail`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mebel_kampus.tbl_detail_transaction: ~8 rows (approximately)
+-- Dumping data for table mebel_kampus.tbl_detail_transaction: ~4 rows (approximately)
 DELETE FROM `tbl_detail_transaction`;
 INSERT INTO `tbl_detail_transaction` (`id_detail`, `no_order`, `id_product`, `quantity`) VALUES
-	(63, 'MF-LLGXM8201', 1, 2),
-	(64, 'MF-LLGXM8201', 2, 2),
-	(65, 'MF-LLGXM8201', 3, 2),
-	(66, 'MF-LLGXM8201', 4, 2),
-	(67, 'MF-CRMJF5192', 2, 1),
-	(69, 'MF-NYNIU6096', 1, 1),
-	(70, 'MF-NYNIU6096', 2, 1),
-	(71, 'MF-NYNIU6096', 3, 1);
+	(1, 'MF-MVBOU0085', 1, 1),
+	(2, 'MF-MVBOU0085', 2, 1),
+	(3, 'MF-MVBOU0085', 3, 1),
+	(4, 'MF-MVBOU0085', 4, 5);
 
 -- Dumping structure for table mebel_kampus.tbl_image_products
 DROP TABLE IF EXISTS `tbl_image_products`;
@@ -109,9 +105,9 @@ CREATE TABLE IF NOT EXISTS `tbl_image_products` (
   `keterangan` text NOT NULL,
   `image` text NOT NULL,
   PRIMARY KEY (`id_image`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mebel_kampus.tbl_image_products: ~14 rows (approximately)
+-- Dumping data for table mebel_kampus.tbl_image_products: ~25 rows (approximately)
 DELETE FROM `tbl_image_products`;
 INSERT INTO `tbl_image_products` (`id_image`, `id_product`, `keterangan`, `image`) VALUES
 	(1, 1, 'Foto 1', '/image/1719979090725.png'),
@@ -127,7 +123,18 @@ INSERT INTO `tbl_image_products` (`id_image`, `id_product`, `keterangan`, `image
 	(11, 3, 'Foto 4', '/image/1719982530073.png'),
 	(12, 4, 'Foto 1', '/image/1719985079454.png'),
 	(13, 4, 'Foto 2', '/image/1719985085176.png'),
-	(14, 4, 'Foto 3', '/image/1719985089265.png');
+	(14, 4, 'Foto 3', '/image/1719985089265.png'),
+	(15, 5, 'Foto 1', '/image/1720440851656.png'),
+	(16, 5, 'Foto 2', '/image/1720440859279.png'),
+	(17, 5, 'Foto 3', '/image/1720440866802.png'),
+	(18, 6, 'Foto 1', '/image/1720442645366.png'),
+	(19, 6, 'Foto 2', '/image/1720442650641.png'),
+	(20, 6, 'Foto 3', '/image/1720442654950.png'),
+	(21, 6, 'Foto 4', '/image/1720442660900.png'),
+	(22, 7, 'Foto 1', '/image/1720443004948.png'),
+	(23, 7, 'Foto 2', '/image/1720443018843.png'),
+	(24, 7, 'Foto 3', '/image/1720443024642.png'),
+	(25, 7, 'Foto 4', '/image/1720443029134.png');
 
 -- Dumping structure for table mebel_kampus.tbl_products
 DROP TABLE IF EXISTS `tbl_products`;
@@ -143,15 +150,18 @@ CREATE TABLE IF NOT EXISTS `tbl_products` (
   PRIMARY KEY (`id_product`),
   KEY `id_category` (`id_category`),
   CONSTRAINT `tbl_products_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `tbl_categorys` (`id_category`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mebel_kampus.tbl_products: ~4 rows (approximately)
+-- Dumping data for table mebel_kampus.tbl_products: ~7 rows (approximately)
 DELETE FROM `tbl_products`;
 INSERT INTO `tbl_products` (`id_product`, `product_name`, `description`, `price`, `stock`, `image`, `id_category`, `created_at`) VALUES
-	(1, 'LISABO', 'Beautiful in its simplicity with a warm, natural wooden look. The innovative construction is very sturdy and with just a few clicks, the table is assembled and ready for use.\r\n\r\nMaterials\r\nTop panel: Ash veneer, Birch veneer, Solid birch, Birch plywood, Particleboard, Tinted clear acrylic lacquer, Fibreboard\r\nLeg base: Solid birch, Tinted clear acrylic lacquer', 3999999.00, 5, '/image/1719978711433.png', 1, '2024-07-03 03:51:51'),
-	(2, 'TOBIAS', 'A transparent chair that mirrors its surroundings. It picks up the colours of the room and appears to be floating. And because there’s flexibility in the seat, you may feel like you are floating too.\r\n\r\nMaterials\r\nLeg frame: Steel, Chrome-plated\r\nSeat shell: Polycarbonate plastic\r\nFoot: Polypropylene plastic\r\nNut: Zinc, Chrome-plated\r\nBumpers/ Washers: Synthetic rubber', 999999.00, 5, '/image/1719982189411.png', 2, '2024-07-03 04:49:49'),
-	(3, 'SONGESAND', 'The classic design with panelled doors never goes out of style. Are you on your way? Use the full-length mirror so you can see your outfit from top to toe. Psst! Please attach to the wall.\r\n\r\nMaterials\r\nTop panel/ Side panel: Particleboard, Paper foil, Plastic edging\r\nBottom panel/ Partition/ Plinth back/ Support rail, back/ Shelf: Particleboard, Paper foil\r\nBack panel: Fibreboard\r\nDoor frame: Fibreboard, Paper foil, Plastic edging\r\nDoor panel/ Plinth front/ Support rail, front: Fibreboard, Paper foil\r\nMirror: Glass, Plastic foil, Plastic foil', 3999999.00, 5, '/image/1719982490071.png', 3, '2024-07-03 04:54:50'),
-	(4, 'ESSEBODA', 'Maybe the softest sofa you’ll ever own! The ESSEBODA series spoils you with everything from the sofa\'s embracing feel, deep seats and high backrests to timeless design, fine details and many possibilities.\r\n\r\nMaterials\r\nFabric: 78% cotton, 22 % polyester (100% recycled)\r\nCord: 100% polyester\r\nClip: Polypropylene plastic\r\nSeat frame: Laminated veneer lumber, Plywood, Paperboard (100% recycled), Polyurethane foam 30 kg/cu.m., Particleboard\r\nBack frame: Plywood, Particleboard, Fibreboard, Paperboard (100% recycled), Polyurethane foam 30 kg/cu.m., Polyurethane foam 25 kg/cu.m., Laminated veneer lumber\r\nArmrest: Plywood, Particleboard, Fibreboard, Polyurethane foam 30 kg/cu.m., Laminated veneer lumber\r\nSeat cushion: Highly resilient polyurethane foam (cold foam) 35 kg/cu.m., Polyurethane foam 30 kg/cu.m., Felt liner, Polyester fibre balls\r\nPocket spring unit: Steel\r\nLegs for sofa\r\nSolid birch, Tinted clear lacquer', 5999999.00, 5, '/image/1719985054545.png', 4, '2024-07-03 05:37:34');
+	(1, 'LISABO', '<p>Cantik dalam kesederhanaannya dengan tampilan kayu yang hangat dan alami. Konstruksi inovatif ini sangat kokoh dan hanya dengan beberapa klik saja, meja sudah terpasang dan siap digunakan.</p><p><br></p><p><strong>Bahan</strong></p><p><strong>﻿Panel atas:</strong>&nbsp;Veneer kayu ash, Veneer kayu birch, Kayu birch solid, Kayu lapis birch, Particleboard, Lacquer akrilik bening berwarna, Fibreboard</p><p><strong>Dasar kaki:</strong>&nbsp;Kayu birch solid, Lacquer akrilik bening berwarna</p>', 3999999.00, 4, '/image/1719978711433.png', 1, '2024-07-03 03:51:51'),
+	(2, 'TOBIAS', '<p>Kursi transparan yang merefleksikan sekitarnya. Kursi tersebut meningkatkan warna ruangan dan terlihat seperti mengapung. Karena ada fleksibilitas pada dudukannya, Anda akan terasa seperti mengapung juga.</p><p><br></p><p><strong>Bahan</strong></p><p><strong><span class="ql-cursor">﻿</span>Rangka kaki:</strong>&nbsp;Baja, Dilapisi krom</p><p><strong>Kerangka tempat duduk:</strong>&nbsp;Plastik polikarbonat</p><p><strong>Kaki:</strong>&nbsp;Plastik polipropilena</p><p><strong>Mur:</strong>&nbsp;Seng, Dilapisi krom</p><p><strong>Bumper/ Cincin penutup:</strong>&nbsp;Karet sintetis</p>', 999999.00, 4, '/image/1719982189411.png', 2, '2024-07-03 04:49:49'),
+	(3, 'SONGESAND', '<p>Desain klasik dengan pintu berpanel selalu mengikuti perkembangan zaman. Gunakan cermin tinggi sehingga Anda dapat melihat pakaian dari atas hingga bawah. Bisa dikaitkan ke dinding juga.</p><p><br></p><p><strong>Bahan</strong></p><p><strong><span class="ql-cursor">﻿</span>Panel atas/ Panel samping:</strong>&nbsp;Particleboard, Kertas foil, Tepi plastik</p><p><strong>Panel bawah/ Partisi/ Lis bawah belakang/ Rel penyokong, belakang/ Papan rak:</strong>&nbsp;Particleboard, Kertas foil</p><p><strong>Panel belakang:</strong>&nbsp;Fibreboard</p><p><strong>Rangka pintu:</strong>&nbsp;Fibreboard, Kertas foil, Tepi plastik</p><p><strong>Panel pintu/ Lis bawah depan/ Rel penyokong, depan:</strong>&nbsp;Fibreboard, Kertas foil</p><p><strong>Cermin:</strong>&nbsp;Kaca, Foil plastik, Foil plastik</p>', 3999999.00, 4, '/image/1719982490071.png', 3, '2024-07-03 04:54:50'),
+	(4, 'ESSEBODA', '<p><span class="ql-size-large">Mungkin ini sofa terempuk yang pernah Anda miliki! Seri ESSEBODA memanjakan Anda dengan segala hal mulai dari kenyamanan sofa, kursi yang dalam dan sandaran tinggi hingga desain klasik, detail halus, dan banyak kemungkinan.</span></p><p><br></p><p><strong>Bahan</strong></p><p><strong>Kain:</strong>&nbsp;78% katun, 22 % poliester (100% daur ulang)</p><p><strong>Tali:</strong>&nbsp;100% poliester</p><p><strong>Klip:</strong>&nbsp;Plastik polipropilena</p><p><strong>Rangka tempat duduk:</strong>&nbsp;Kayu veneer dilaminasi, Kayu lapis, Karton (100% didaur ulang), Busa poliuretana 30 kg/meter kubik, Particleboard</p><p><strong>Rangka belakang:</strong>&nbsp;Kayu lapis, Particleboard, Fibreboard, Karton (100% didaur ulang), Busa poliuretana 30 kg/meter kubik, Busa poliuretana 25 kg/meter kubik, Kayu veneer dilaminasi</p><p><strong>Sandaran tangan:</strong>&nbsp;Kayu lapis, Particleboard, Fibreboard, Busa poliuretana 30 kg/meter kubik, Kayu veneer dilaminasi</p><p><strong>Bantalan tempat duduk:</strong>&nbsp;Busa poliuretana elastis tinggi (busa dingin) 35 kg/meter kubik, Busa poliuretana 30 kg/meter kubik, Alas fern, Bola serat poliester</p><p><strong>Unit kantong pegas:</strong>&nbsp;Baja</p>', 5999999.00, 5, '/image/1719985054545.png', 4, '2024-07-03 05:37:34'),
+	(5, 'TEODORES', '<p>Kursi nyaman yang kokoh, namun ringan dan dapat ditumpuk juga. Pertandingan yang mudah dengan berbagai meja dan gaya yang ingin membuat Anda senang, entah di ruang makan, di pintu masuk atau di samping tempat tidur Anda.</p><p><br></p><p><strong>Bahan</strong></p><p><strong><span class="ql-cursor">﻿</span>Rangka kaki/ Rel silang/ Batang bulat:</strong>&nbsp;Baja, Dilapisi serbuk epoksi/poliester</p><p><strong>Tempat duduk/ Sandaran:</strong>&nbsp;Plastik polipropilena</p>', 450000.00, 5, '/image/1720440820999.png', 2, '2024-07-08 12:13:41'),
+	(6, 'GRÅSALA', '<p>Meja tahan lama untuk 4 orang dengan desain yang rapi namun kokoh, cocok untuk makan, bekerja, menghibur atau membuat kerajinan. Padukan dengan kursi GRÅSALA untuk menciptakan tampilan yang ramah dan serasi.</p><p><br></p><p><strong>Bahan</strong></p><p><strong>Daun meja</strong></p><p>Particleboard, Foil melamin, Tepi plastik, Tepi plastik, Foil melamin</p><p><strong>Rangka bawah untuk daun meja<span class="ql-cursor">﻿</span></strong></p><p>Baja, Dilapisi serbuk epoksi/poliester</p>', 1299000.00, 5, '/image/1720442624994.png', 1, '2024-07-08 12:43:44'),
+	(7, 'KALLAX', '<p>Bangku TV yang sempurna dengan banyak ruang untuk peralatan dan aksesori. Jika Anda menginginkan penyimpanan tertutup, tempatkan kotak atau sisipan di kompartemen bawah. Bagian belakang yang terbuka memudahkan pengelolaan kabel!</p><p><br></p><p><strong>Bahan</strong></p><p><span class="ql-cursor">﻿</span>Particleboard, Fibreboard, Cat akrilik, Kertas foil, Pengisian kertas struktur sarang lebah (100% didaur ulang), Tepi plastik, Tepi plastik, Tepi plastik</p>', 1699000.00, 5, '/image/1720442984851.png', 5, '2024-07-08 12:49:44');
 
 -- Dumping structure for table mebel_kampus.tbl_rating_products
 DROP TABLE IF EXISTS `tbl_rating_products`;
@@ -192,14 +202,12 @@ CREATE TABLE IF NOT EXISTS `tbl_transaction` (
   `nama_bank` varchar(50) DEFAULT NULL,
   `no_rekening` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mebel_kampus.tbl_transaction: ~3 rows (approximately)
+-- Dumping data for table mebel_kampus.tbl_transaction: ~1 rows (approximately)
 DELETE FROM `tbl_transaction`;
 INSERT INTO `tbl_transaction` (`id_transaction`, `id_user`, `no_order`, `order_date`, `nama_penerima`, `tlp_penerima`, `alamat_penerima`, `ongkir`, `grand_total`, `total_bayar`, `status_bayar`, `status_order`, `no_resi`, `image_bayar`, `atas_nama`, `nama_bank`, `no_rekening`) VALUES
-	(16, 1, 'MF-LLGXM8201', '2024-07-05 14:58:36', 'Farrel Ardian', '089603450314', 'Jl sriti no 13', 100000, 29999992, 30099992, 1, 2, 'TESTRESI', '/image/1720191501499.jpg', 'Farrel', 'Mandiri', '139'),
-	(17, 1, 'MF-CRMJF5192', '2024-07-05 12:56:46', 'Farrel Ardian', '089603450314', 'Jl sriti no 13', 100000, 999999, 1099999, 0, 0, '', '', '', '', ''),
-	(18, 2, 'MF-NYNIU6096', '2024-07-04 13:27:28', 'Jalanin', '089603450314', 'Jl Pajajaran no 1', 100000, 8999997, 9099997, 0, 0, '', NULL, NULL, NULL, NULL);
+	(1, 1, 'MF-MVBOU0085', '2024-07-08 12:10:45', 'Farrel Ardian', '089603450314', 'Jl sriti no 13', 100000, 38999992, 39099992, 0, 0, 'TESTRESI', '/image/1720434791029.jpg', 'Farrel Ardian', 'Mandiri', '1390023268547');
 
 -- Dumping structure for table mebel_kampus.tbl_users
 DROP TABLE IF EXISTS `tbl_users`;
