@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../css/Order.css";
-import { fetchOrder, updateStatusBayar } from "./HandleAPI_User";
+import {
+  fetchOrder,
+  updateStatusBayar,
+  updateStatusDiterima,
+} from "./HandleAPI_User";
+import Swal from "sweetalert2";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -77,6 +82,42 @@ const Order = () => {
       fetchData();
     }
     closeBayarModal();
+  };
+
+  const handleDiterima = async (noOrder) => {
+    const result = await Swal.fire({
+      title: "Apakah kamu yakin?",
+      text: "Apakah kamu yakin menerima produk ini?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    });
+
+    if (result.isConfirmed) {
+      const update = await updateStatusDiterima(noOrder);
+      if (update) {
+        const fetchData = async () => {
+          try {
+            const { orderItems, detailedOrders } = await fetchOrder();
+            setOrderItems(orderItems);
+            setDetailedOrders(detailedOrders);
+          } catch (error) {
+            console.error("Error fetching data ", error);
+          }
+        };
+
+        await fetchData();
+
+        Swal.fire({
+          title: "Sukses!",
+          text: "Berhasil diterima.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      }
+      closeBayarModal();
+    }
   };
 
   useEffect(() => {
@@ -186,6 +227,11 @@ const Order = () => {
                               <span className="badge text-bg-success">
                                 Dikirim
                               </span>
+                            ) : item.status_bayar === 1 &&
+                              item.status_order === 3 ? (
+                              <span className="badge text-bg-primary">
+                                Diterima
+                              </span>
                             ) : null}
                           </td>
                           <td className="text-center">
@@ -204,7 +250,7 @@ const Order = () => {
                                 <button
                                   type="button"
                                   className="bayar-button"
-                                  // onClick={() => openBayarModal(item.no_order)}
+                                  onClick={() => handleDiterima(item.no_order)}
                                 >
                                   Diterima
                                 </button>

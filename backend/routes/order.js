@@ -27,4 +27,9 @@ router.put(
   orderController.updateStatusBayar
 );
 
+router.put(
+  "/transaction-detail/edit-diterima/:no_order",
+  orderController.updateStatusDiterima
+);
+
 module.exports = router;

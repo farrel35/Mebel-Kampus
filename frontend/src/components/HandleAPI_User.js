@@ -519,3 +519,49 @@ export const updateStatusBayar = async (formData, currentOrderId) => {
     console.error("Error submitting payment:", error);
   }
 };
+
+export const updateStatusDiterima = async (currentOrderId) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    Swal.fire({
+      title: "Error!",
+      text: "Anda harus login.",
+      icon: "error",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/login";
+      }
+    });
+    return;
+  }
+
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/order/transaction-detail/edit-diterima/${currentOrderId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    Swal.fire({
+      title: "Sukses!",
+      text: "Berhasil diterima.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting diterima:", error);
+    Swal.fire({
+      title: "Error!",
+      text: "Gagal memperbarui status.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+  }
+};
