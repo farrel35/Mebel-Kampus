@@ -93,111 +93,113 @@ const OrderManagement = () => {
   return (
     <div className="container-fluid container-admin">
       <h2>Kelola Order</h2>
-      <div className="row">
-        <div className="col-12 col-sm-12">
-          <div className="list-group">
+
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>No Order</th>
+              <th className="text-center">Tanggal Order</th>
+              <th className="text-center">Detail Pesanan</th>
+              <th className="text-center">Total Bayar</th>
+              <th className="text-center">Alamat</th>
+              <th className="text-center">Status</th>
+              <th className="text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
             {orderItems.map((item, index) => (
-              <div
-                className="list-group-item list-group-item-action py-3"
-                key={item.no_order}
-              >
-                <div className="row align-items-center">
-                  <div className="col-4">
-                    <div>
-                      <h6 className="mb-0 fw-bold">
-                        No Order : {item.no_order}
-                      </h6>
-                      <p className="mb-0 opacity-75">
-                        Total Bayar : {formatter.format(item.total_bayar)}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div>
-                      <h6 className="mb-0 fw-bold">Detail Pesanan</h6>
-                      <p className="mb-0 opacity-75">
-                        {detailedOrders[index] &&
-                          detailedOrders[index].map((detail) => (
-                            <div key={detail.id_detail}>
-                              <h6>
-                                <img
-                                  alt="Product"
-                                  className="flex-shrink-0"
-                                  height="64"
-                                  src={`http://localhost:4000${detail.image}`}
-                                  width="64"
-                                />
-                                {detail.product_name} x {detail.quantity}
-                              </h6>
-                            </div>
-                          ))}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    {item.status_bayar === 1 && item.status_order === 0 ? (
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <button
-                          type="button"
-                          className="bayar-button"
-                          style={{ marginBottom: "10px" }}
-                          onClick={() => openBuktiBayarModal(item.no_order)}
-                        >
-                          Lihat Bukti Bayar
-                        </button>
-                        <button
-                          type="button"
-                          className="bayar-button"
-                          style={{ marginBottom: "10px" }}
-                          onClick={() => prosesOrder(item.no_order)}
-                        >
-                          Proses
-                        </button>
+              <tr key={item.no_order}>
+                <td>{item.no_order}</td>
+                <td className="text-center">
+                  <small className="opacity-50 text-nowrap">
+                    {new Date(item.order_date).toLocaleDateString()}
+                  </small>
+                </td>
+                <td className="text-center">
+                  {detailedOrders[index] &&
+                    detailedOrders[index].map((detail) => (
+                      <div key={detail.id_detail}>
+                        <img
+                          alt="Product"
+                          className="flex-shrink-0"
+                          height="64"
+                          src={`http://localhost:4000${detail.image}`}
+                          width="64"
+                        />
+                        {detail.product_name} x {detail.quantity}
                       </div>
-                    ) : item.status_bayar === 1 && item.status_order === 1 ? (
+                    ))}
+                </td>
+                <td className="text-center">
+                  {formatter.format(item.total_bayar)}
+                </td>
+                <td>
+                  <div>
+                    <b>Nama Penerima :</b> {item.nama_penerima}
+                  </div>
+                  <div>
+                    <b>No Penerima :</b> {item.tlp_penerima}
+                  </div>
+                  <div>
+                    <b>Alamat Penerima :</b> {item.alamat_penerima}
+                  </div>
+                  <div>
+                    {item.status_bayar === 1 && item.status_order === 2 && (
+                      <div>
+                        <b>No Resi :</b> {item.no_resi}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td className="text-center">
+                  {item.status_bayar === 0 && item.status_order === 0 ? (
+                    <span className="badge text-bg-warning">Belum Bayar</span>
+                  ) : item.status_bayar === 1 && item.status_order === 0 ? (
+                    <span className="badge text-bg-success">
+                      Menunggu Verifikasi
+                    </span>
+                  ) : item.status_bayar === 1 && item.status_order === 1 ? (
+                    <span className="badge text-bg-warning">Dikemas</span>
+                  ) : item.status_bayar === 1 && item.status_order === 2 ? (
+                    <span className="badge text-bg-success">Dikirim</span>
+                  ) : null}
+                </td>
+                <td className="text-center">
+                  {item.status_bayar === 1 && item.status_order === 0 ? (
+                    <div style={{ display: "flex", flexDirection: "column" }}>
                       <button
                         type="button"
                         className="bayar-button"
                         style={{ marginBottom: "10px" }}
-                        onClick={() => openKirimModal(item.no_order)}
+                        onClick={() => openBuktiBayarModal(item.no_order)}
                       >
-                        Kirim
+                        Lihat Bukti Bayar
                       </button>
-                    ) : item.status_bayar === 1 && item.status_order === 2 ? (
-                      <div>
-                        <h6 className="mb-0 fw-bold">No Resi</h6>
-                        <p className="mb-0 opacity-75">
-                          <h6>{item.no_resi}</h6>
-                        </p>
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="col-2 text-end">
-                    <small className="opacity-50 text-nowrap">
-                      {new Date(item.order_date).toLocaleDateString()}
-                    </small>
-                    <p className="mb-0">
-                      {item.status_bayar === 0 ? (
-                        <span className="badge text-bg-warning">
-                          Belum Bayar
-                        </span>
-                      ) : item.status_bayar === 1 && item.status_order === 0 ? (
-                        <span className="badge text-bg-success">
-                          Menunggu Verifikasi
-                        </span>
-                      ) : item.status_bayar === 1 && item.status_order === 1 ? (
-                        <span className="badge text-bg-warning">Dikemas</span>
-                      ) : item.status_bayar === 1 && item.status_order === 2 ? (
-                        <span className="badge text-bg-success">Dikirim</span>
-                      ) : null}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                      <button
+                        type="button"
+                        className="bayar-button"
+                        style={{ marginBottom: "10px" }}
+                        onClick={() => prosesOrder(item.no_order)}
+                      >
+                        Proses
+                      </button>
+                    </div>
+                  ) : item.status_bayar === 1 && item.status_order === 1 ? (
+                    <button
+                      type="button"
+                      className="bayar-button"
+                      style={{ marginBottom: "10px" }}
+                      onClick={() => openKirimModal(item.no_order)}
+                    >
+                      Kirim
+                    </button>
+                  ) : null}
+                </td>
+              </tr>
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
       </div>
 
       {buktibayarModalOpen && (

@@ -151,11 +151,18 @@ const Order = () => {
                               <b>Nama Penerima :</b> {item.nama_penerima}
                             </div>
                             <div>
-                              <b>No Penerima :</b>
-                              {item.tlp_penerima}
+                              <b>No Penerima :</b> {item.tlp_penerima}
                             </div>
                             <div>
                               <b>Alamat Penerima :</b> {item.alamat_penerima}
+                            </div>
+                            <div>
+                              {item.status_bayar === 1 &&
+                                item.status_order === 2 && (
+                                  <div>
+                                    <b>No Resi :</b> {item.no_resi}
+                                  </div>
+                                )}
                             </div>
                           </td>
                           <td className="text-center">
@@ -194,10 +201,13 @@ const Order = () => {
                             ) : item.status_bayar === 1 &&
                               item.status_order === 2 ? (
                               <div>
-                                <h6 className="mb-0 fw-bold">No Resi</h6>
-                                <p className="mb-0 opacity-75">
-                                  <h6>{item.no_resi}</h6>
-                                </p>
+                                <button
+                                  type="button"
+                                  className="bayar-button"
+                                  // onClick={() => openBayarModal(item.no_order)}
+                                >
+                                  Diterima
+                                </button>
                               </div>
                             ) : null}
                           </td>
@@ -211,108 +221,117 @@ const Order = () => {
           </div>
 
           {bayarModalOpen && (
-            <div className="modal-new">
-              <div className="modal-new-content-order">
-                <div className="modal-header">
-                  <h5 className="modal-title">Pembayaran</h5>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={closeBayarModal}
-                  >
-                    <span>&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="card card-primary">
-                        <div className="card-header">
-                          <h3 className="card-title">No Rekening</h3>
-                        </div>
-                        <div className="card-body">
-                          <div className="form-group">
-                            <p>
-                              Silahkan transfer ke nomor rekening berikut
-                              sejumlah :
-                            </p>
-                            <h1 className="text-primary">
-                              {formatter.format(
-                                orderItems.find(
-                                  (item) => item.no_order === currentOrderId
-                                ).total_bayar
-                              )}
-                            </h1>
-                            <p />
-                            <table className="table">
-                              <tbody>
-                                <tr>
-                                  <th>Bank</th>
-                                  <th>No Rekening</th>
-                                  <th>Atas Nama</th>
-                                </tr>
-                                <tr>
-                                  <td>Bank Mandiri</td>
-                                  <td>132-003600-0009</td>
-                                  <td>Mebelin Furniture</td>
-                                </tr>
-                                <tr>
-                                  <td>Bank Central Asia (BCA)</td>
-                                  <td>6280-66-9600</td>
-                                  <td>Mebelin Furniture</td>
-                                </tr>
-                              </tbody>
-                            </table>
+            <div
+              className="modal fade show"
+              style={{
+                display: "block",
+                paddingLeft: "17px",
+              }}
+            >
+              <div className="modal-dialog modal-xl">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h4 className="modal-title">
+                      {
+                        orderItems.find(
+                          (item) => item.no_order === currentOrderId
+                        ).no_order
+                      }
+                    </h4>
+                    <button
+                      className="btn-close"
+                      type="button"
+                      onClick={closeBayarModal}
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="card card-primary">
+                          <div className="card-header">
+                            <h3 className="card-title">No Rekening</h3>
+                          </div>
+                          <div className="card-body">
+                            <div className="form-group">
+                              <p>
+                                Silahkan transfer ke nomor rekening berikut
+                                sejumlah :
+                              </p>
+                              <h1 className="text-primary">
+                                {formatter.format(
+                                  orderItems.find(
+                                    (item) => item.no_order === currentOrderId
+                                  ).total_bayar
+                                )}
+                              </h1>
+                              <p />
+                              <table className="table">
+                                <tbody>
+                                  <tr>
+                                    <th>Bank</th>
+                                    <th>No Rekening</th>
+                                    <th>Atas Nama</th>
+                                  </tr>
+                                  <tr>
+                                    <td>Bank Mandiri</td>
+                                    <td>132-003600-0009</td>
+                                    <td>Mebelin Furniture</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Bank Central Asia (BCA)</td>
+                                    <td>6280-66-9600</td>
+                                    <td>Mebelin Furniture</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="card card-primary">
-                        <div className="card-body">
-                          {error && (
-                            <div className="alert alert-danger">{error}</div>
-                          )}
+                      <div className="col-6">
+                        <div className="card card-primary">
+                          <div className="card-body">
+                            {error && (
+                              <div className="alert alert-danger">{error}</div>
+                            )}
 
-                          <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                              <label>Nama Bank:</label>
-                              <input
-                                type="text"
-                                name="bankName"
-                                className="form-control"
-                                onChange={handleInputChange}
-                              />
-                              <label>Nama Pemilik Rekening:</label>
-                              <input
-                                type="text"
-                                name="accountOwner"
-                                className="form-control"
-                                onChange={handleInputChange}
-                              />
-                              <label>No rekening:</label>
-                              <input
-                                type="text"
-                                name="accountNumber"
-                                className="form-control"
-                                onChange={handleInputChange}
-                              />
+                            <form onSubmit={handleSubmit}>
+                              <div className="form-group">
+                                <label>Nama Bank:</label>
+                                <input
+                                  type="text"
+                                  name="bankName"
+                                  className="form-control"
+                                  onChange={handleInputChange}
+                                />
+                                <label>Nama Pemilik Rekening:</label>
+                                <input
+                                  type="text"
+                                  name="accountOwner"
+                                  className="form-control"
+                                  onChange={handleInputChange}
+                                />
+                                <label>No rekening:</label>
+                                <input
+                                  type="text"
+                                  name="accountNumber"
+                                  className="form-control"
+                                  onChange={handleInputChange}
+                                />
 
-                              <label>Bukti Bayar:</label>
-                              <input
-                                type="file"
-                                className="form-control-file"
-                                onChange={handleFileChange}
-                              />
-                            </div>
+                                <label>Bukti Bayar:</label>
+                                <input
+                                  type="file"
+                                  className="form-control"
+                                  onChange={handleFileChange}
+                                />
+                              </div>
 
-                            <button
-                              type="submit"
-                              className="btn btn-edit-admin"
-                            >
-                              Bayar
-                            </button>
-                          </form>
+                              <button type="submit" className="btn btn-bayar">
+                                Bayar
+                              </button>
+                            </form>
+                          </div>
                         </div>
                       </div>
                     </div>
