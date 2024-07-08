@@ -56,53 +56,59 @@ const ProductByCategory = () => {
   return (
     <>
       <Navbar />
-      <div
-        id="our-products"
-        className="our-products-section container container-pcategory"
-      >
-        <h1>Products in {category}</h1>
-        <div className="row g-4 row-cols-1 row-cols-md-3 row-cols-lg-5">
-          {products.map((product) => (
-            <div className="col" key={product.id_product}>
-              <Link
-                to={`/product/${product.id_product}`}
-                className="text-decoration-none"
-              >
-                <div className="card card-product">
-                  <div className="card-body">
-                    <div className="text-center position-relative">
-                      <img
-                        src={`http://localhost:4000${product.image}`}
-                        alt="Product"
-                        className="mb-3 img-fluid card-img-top"
-                      />
-                    </div>
-                    <div className="text-small mb-1">
-                      <Link
-                        to={`/category/${product.category_name}`}
-                        className="text-decoration-none text-muted"
-                      >
-                        <small>{product.category_name}</small>
-                      </Link>
-                    </div>
-                    <h5 className="card-title fs-6">{product.product_name}</h5>
+      <div className="app-container">
+        <div className="content-wrap">
+          <div
+            id="our-products"
+            className="our-products-section container container-pcategory"
+          >
+            <h1>Products in {category}</h1>
+            <div className="row g-4 row-cols-1 row-cols-md-3 row-cols-lg-5">
+              {products.map((product) => (
+                <div className="col" key={product.id_product}>
+                  <Link
+                    to={`/product/${product.id_product}`}
+                    className="text-decoration-none"
+                  >
+                    <div className="card card-product">
+                      <div className="card-body">
+                        <div className="text-center position-relative">
+                          <img
+                            src={`http://localhost:4000${product.image}`}
+                            alt="Product"
+                            className="mb-3 img-fluid card-img-top"
+                          />
+                        </div>
+                        <div className="text-small mb-1">
+                          <Link
+                            to={`/category/${product.category_name}`}
+                            className="text-decoration-none text-muted"
+                          >
+                            <small>{product.category_name}</small>
+                          </Link>
+                        </div>
+                        <h5 className="card-title fs-6">
+                          {product.product_name}
+                        </h5>
 
-                    <div className="d-flex justify-content-between align-items-center mt-3">
-                      <div>
-                        <span className="text-dark">
-                          {formatter.format(product.price)}
-                        </span>
+                        <div className="d-flex justify-content-between align-items-center mt-3">
+                          <div>
+                            <span className="text-dark">
+                              {formatter.format(product.price)}
+                            </span>
+                          </div>
+                          <div></div>
+                        </div>
                       </div>
-                      <div></div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
-              </Link>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
       <BackToTopButton />
     </>
   );
