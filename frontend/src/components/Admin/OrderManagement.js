@@ -163,6 +163,8 @@ const OrderManagement = () => {
                     <span className="badge text-bg-warning">Dikemas</span>
                   ) : item.status_bayar === 1 && item.status_order === 2 ? (
                     <span className="badge text-bg-success">Dikirim</span>
+                  ) : item.status_bayar === 1 && item.status_order === 3 ? (
+                    <span className="badge text-bg-primary">Diterima</span>
                   ) : null}
                 </td>
                 <td className="text-center">
