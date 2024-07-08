@@ -154,7 +154,9 @@ const ProductDetail = () => {
                 <span>{formatter.format(product.price)}</span>
               </div>
               <div className="product-description">
-                <p className="lead">{product.description}</p>
+                <div
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
               </div>
               <div className="d-flex">
                 <input

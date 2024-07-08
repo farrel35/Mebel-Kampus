@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import "react-quill/dist/quill.snow.css"; // Import Quill styles
 import "../../css/AdminManagement.css";
+import ReactQuill from "react-quill"; // Import ReactQuill component
 
 import {
   fetchProducts,
@@ -197,7 +199,38 @@ const ProductManagement = () => {
       alert("Failed to create product");
     }
   };
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+  };
 
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+  ];
   if (!products || !categories) {
     return; // or loading indicator
   }
@@ -226,7 +259,11 @@ const ProductManagement = () => {
               <tr key={product.id_product}>
                 <td>{product.id_product}</td>
                 <td>{product.product_name}</td>
-                <td>{product.description}</td>
+                <td>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
+                </td>
                 <td>{formatter.format(product.price)}</td>
                 <td>{product.stock}</td>
                 <td>{product.category_name}</td>
@@ -277,12 +314,18 @@ const ProductManagement = () => {
                     </div>
                     <div className="form-group">
                       <label>Deskripsi:</label>
-                      <textarea
-                        name="description"
+                      <ReactQuill
                         value={selectedProduct.description}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        rows="5"
+                        onChange={(value) =>
+                          handleInputChange({
+                            target: {
+                              name: "description",
+                              value,
+                            },
+                          })
+                        }
+                        modules={modules}
+                        formats={formats}
                       />
                     </div>
                     <div className="form-group">
@@ -393,12 +436,18 @@ const ProductManagement = () => {
                     </div>
                     <div className="form-group">
                       <label>Deskripsi:</label>
-                      <textarea
-                        name="description"
+                      <ReactQuill
                         value={newProduct.description}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        rows="5"
+                        onChange={(value) =>
+                          handleInputChange({
+                            target: {
+                              name: "description",
+                              value,
+                            },
+                          })
+                        }
+                        modules={modules}
+                        formats={formats}
                       />
                     </div>
                     <div className="form-group">

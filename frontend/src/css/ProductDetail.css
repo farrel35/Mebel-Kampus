@@ -231,6 +231,11 @@
 .product-description {
   white-space: pre-line; /* Ensures that whitespace is preserved and respects line breaks in the text */
 }
+
+.product-description p {
+  margin-bottom: 0px;
+}
+
 #imageMagnifyer {
   width: 400px;
   height: 400px;
