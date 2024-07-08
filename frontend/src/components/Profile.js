@@ -75,149 +75,155 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="profile-container">
-        <h1>Profil Pengguna</h1>
-        <div className="profile-details">
-          <img
-            src={`http://localhost:4000${userData.image}`}
-            alt="Profile"
-            className="profile-picture"
-          />
+      <div className="app-container">
+        <div className="content-wrap">
+          <div className="profile-container">
+            <h1>Profil Pengguna</h1>
+            <div className="profile-details">
+              <img
+                src={`http://localhost:4000${userData.image}`}
+                alt="Profile"
+                className="profile-picture"
+              />
 
-          <div className="profile-info">
-            <p>
-              <strong>Nama:</strong> {userData.username}
-            </p>
-            <p>
-              <strong>Email:</strong> {userData.email}
-            </p>
-            <p>
-              <strong>No Hp:</strong> {userData.no_hp}
-            </p>
-            <p>
-              <strong>Alamat:</strong> {userData.alamat}
-            </p>
-            <button className="edit-button" onClick={openModal}>
-              Edit Profile
-            </button>
-          </div>
-        </div>
+              <div className="profile-info">
+                <p>
+                  <strong>Nama:</strong> {userData.username}
+                </p>
+                <p>
+                  <strong>Email:</strong> {userData.email}
+                </p>
+                <p>
+                  <strong>No Hp:</strong> {userData.no_hp}
+                </p>
+                <p>
+                  <strong>Alamat:</strong> {userData.alamat}
+                </p>
+                <button className="edit-button" onClick={openModal}>
+                  Edit Profile
+                </button>
+              </div>
+            </div>
 
-        {/* Modal */}
-        {modalOpen && (
-          <div
-            className="modal fade show"
-            style={{
-              display: "block",
-              paddingLeft: "17px",
-            }}
-          >
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Edit Profil</h5>
-                  <button type="button" className="close" onClick={closeModal}>
-                    <span>&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <div className="row">
-                    <div className={!file ? "col-12" : "col-lg-7"}>
-                      {error && (
-                        <div className="alert alert-danger">{error}</div>
-                      )}
-
-                      <form>
-                        <label>
-                          Nama:
-                          <input
-                            type="text"
-                            name="username"
-                            value={userData.username}
-                            onChange={handleInputChange}
-                            className="form-control"
-                          />
-                        </label>
-
-                        <label>
-                          Email:
-                          <input
-                            type="email"
-                            name="email"
-                            value={userData.email}
-                            onChange={handleInputChange}
-                            className="form-control"
-                          />
-                        </label>
-
-                        <label>
-                          No Hp:
-                          <input
-                            type="text"
-                            name="no_hp"
-                            value={userData.no_hp}
-                            onChange={handleInputChange}
-                            className="form-control"
-                          />
-                        </label>
-
-                        <label>
-                          Alamat:
-                          <input
-                            type="text"
-                            name="alamat"
-                            value={userData.alamat}
-                            onChange={handleInputChange}
-                            className="form-control"
-                          />
-                        </label>
-
-                        <label>
-                          Password:
-                          <input
-                            type="password"
-                            name="password"
-                            ref={passwordRef}
-                            className="form-control"
-                          />
-                        </label>
-
-                        <label>
-                          Foto Profil:
-                          <input
-                            type="file"
-                            onChange={handleFileChange}
-                            className="form-control"
-                          />
-                        </label>
-
-                        <button
-                          type="button"
-                          className="btn btn-edit-profile"
-                          onClick={handleSubmit}
-                        >
-                          Simpan Perubahan
-                        </button>
-                      </form>
+            {/* Modal */}
+            {modalOpen && (
+              <div
+                className="modal fade show"
+                style={{
+                  display: "block",
+                  paddingLeft: "17px",
+                }}
+              >
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Edit Profil</h5>
+                      <button
+                        className="btn-close"
+                        type="button"
+                        onClick={closeModal}
+                      ></button>
                     </div>
+                    <div className="modal-body">
+                      <div className="row">
+                        <div className={!file ? "col-12" : "col-lg-7"}>
+                          {error && (
+                            <div className="alert alert-danger">{error}</div>
+                          )}
 
-                    {file && (
-                      <div className="col-lg-5 mt-3 mt-lg-0">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt="Preview"
-                          className="profile-picture img-fluid"
-                        />
+                          <form>
+                            <label>
+                              Nama:
+                              <input
+                                type="text"
+                                name="username"
+                                value={userData.username}
+                                onChange={handleInputChange}
+                                className="form-control"
+                              />
+                            </label>
+
+                            <label>
+                              Email:
+                              <input
+                                type="email"
+                                name="email"
+                                value={userData.email}
+                                onChange={handleInputChange}
+                                className="form-control"
+                              />
+                            </label>
+
+                            <label>
+                              No Hp:
+                              <input
+                                type="text"
+                                name="no_hp"
+                                value={userData.no_hp}
+                                onChange={handleInputChange}
+                                className="form-control"
+                              />
+                            </label>
+
+                            <label>
+                              Alamat:
+                              <input
+                                type="text"
+                                name="alamat"
+                                value={userData.alamat}
+                                onChange={handleInputChange}
+                                className="form-control"
+                              />
+                            </label>
+
+                            <label>
+                              Password:
+                              <input
+                                type="password"
+                                name="password"
+                                ref={passwordRef}
+                                className="form-control"
+                              />
+                            </label>
+
+                            <label>
+                              Foto Profil:
+                              <input
+                                type="file"
+                                onChange={handleFileChange}
+                                className="form-control"
+                              />
+                            </label>
+
+                            <button
+                              type="button"
+                              className="btn btn-edit-profile"
+                              onClick={handleSubmit}
+                            >
+                              Simpan Perubahan
+                            </button>
+                          </form>
+                        </div>
+
+                        {file && (
+                          <div className="col-lg-5 mt-3 mt-lg-0">
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt="Preview"
+                              className="profile-picture img-fluid"
+                            />
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };
