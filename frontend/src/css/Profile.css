@@ -85,24 +85,7 @@
   text-decoration: none;
 }
 
-.modal-new h2 {
-  margin-bottom: 1rem;
-}
-
-.modal-new form label {
-  display: block;
-  margin: 1rem 0 0.5rem 0;
-  font-weight: bold;
-}
-
-.modal-new form input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.modal-new .btn-edit-profile {
+.btn-edit-profile {
   display: block;
   width: 100%;
   margin-top: 1rem;
@@ -116,7 +99,7 @@
   transition: background-color 0.3s ease;
 }
 
-.modal-new .btn-edit-profile:hover {
+.btn-edit-profile:hover {
   background-color: #294b29;
   color: #fff;
 }

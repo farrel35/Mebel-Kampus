@@ -210,7 +210,7 @@ const ProductManagement = () => {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      ["link", "image", "video"],
+      ["link"],
       ["clean"],
     ],
   };
@@ -228,9 +228,8 @@ const ProductManagement = () => {
     "bullet",
     "indent",
     "link",
-    "image",
-    "video",
   ];
+
   if (!products || !categories) {
     return; // or loading indicator
   }
@@ -289,115 +288,127 @@ const ProductManagement = () => {
 
       {/* Edit Product Modal */}
       {editModalOpen && selectedProduct && (
-        <div className="modal-new">
-          <div className="modal-new-content-admin">
-            <div className="modal-header">
-              <h5 className="modal-title">Edit Produk</h5>
-              <button type="button" className="close" onClick={closeEditModal}>
-                <span>&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="row">
-                <div className="col-lg-7">
-                  {error && <div className="alert alert-danger">{error}</div>}
-                  <form>
-                    <div className="form-group">
-                      <label>Nama:</label>
-                      <input
-                        type="text"
-                        name="product_name"
-                        value={selectedProduct.product_name}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Deskripsi:</label>
-                      <ReactQuill
-                        value={selectedProduct.description}
-                        onChange={(value) =>
-                          handleInputChange({
-                            target: {
-                              name: "description",
-                              value,
-                            },
-                          })
-                        }
-                        modules={modules}
-                        formats={formats}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Harga:</label>
-                      <input
-                        type="number"
-                        name="price"
-                        value={selectedProduct.price}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Stok:</label>
-                      <input
-                        type="number"
-                        name="stock"
-                        value={selectedProduct.stock}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Kategori:</label>
-                      <select
-                        name="id_category"
-                        value={selectedProduct.id_category}
-                        onChange={handleInputChange}
-                        className="form-control"
+        <div
+          className="modal fade show"
+          style={{
+            display: "block",
+            paddingLeft: "17px",
+          }}
+        >
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Produk</h5>
+                <button
+                  type="button"
+                  className="close"
+                  onClick={closeEditModal}
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col-lg-7">
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    <form>
+                      <div className="form-group">
+                        <label>Nama:</label>
+                        <input
+                          type="text"
+                          name="product_name"
+                          value={selectedProduct.product_name}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Deskripsi:</label>
+                        <ReactQuill
+                          value={selectedProduct.description}
+                          onChange={(value) =>
+                            handleInputChange({
+                              target: {
+                                name: "description",
+                                value,
+                              },
+                            })
+                          }
+                          modules={modules}
+                          formats={formats}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Harga:</label>
+                        <input
+                          type="number"
+                          name="price"
+                          value={selectedProduct.price}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Stok:</label>
+                        <input
+                          type="number"
+                          name="stock"
+                          value={selectedProduct.stock}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Kategori:</label>
+                        <select
+                          name="id_category"
+                          value={selectedProduct.id_category}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        >
+                          <option value="">Pilih Kategori</option>
+                          {categories.map((category) => (
+                            <option
+                              key={category.id_category}
+                              value={category.id_category}
+                            >
+                              {category.category_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Foto Produk:</label>
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-edit-admin"
+                        onClick={handleSubmitEdit}
                       >
-                        <option value="">Pilih Kategori</option>
-                        {categories.map((category) => (
-                          <option
-                            key={category.id_category}
-                            value={category.id_category}
-                          >
-                            {category.category_name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Foto Produk:</label>
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        className="form-control-file"
+                        Simpan
+                      </button>
+                    </form>
+                  </div>
+                  <div className="col-lg-5">
+                    {file ? (
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt="Preview"
+                        className="img-fluid"
                       />
-                    </div>
-                    <button
-                      type="button"
-                      className="btn btn-edit-admin"
-                      onClick={handleSubmitEdit}
-                    >
-                      Simpan
-                    </button>
-                  </form>
-                </div>
-                <div className="col-lg-5">
-                  {file ? (
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="Preview"
-                      className="img-fluid"
-                    />
-                  ) : (
-                    <img
-                      src={`http://localhost:4000${selectedProduct.image}`}
-                      alt="Default Preview"
-                      className="img-fluid"
-                    />
-                  )}
+                    ) : (
+                      <img
+                        src={`http://localhost:4000${selectedProduct.image}`}
+                        alt="Default Preview"
+                        className="img-fluid"
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -407,116 +418,124 @@ const ProductManagement = () => {
 
       {/* Create Product Modal */}
       {createModalOpen && (
-        <div className="modal-new">
-          <div className="modal-new-content-admin">
-            <div className="modal-header">
-              <h5 className="modal-title">Tambah Produk</h5>
-              <button
-                type="button"
-                className="close"
-                onClick={closeCreateModal}
-              >
-                <span>&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="row">
-                <div className={!file ? "col-12" : "col-lg-7"}>
-                  {error && <div className="alert alert-danger">{error}</div>}
-                  <form>
-                    <div className="form-group">
-                      <label>Nama:</label>
-                      <input
-                        type="text"
-                        name="product_name"
-                        value={newProduct.product_name}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Deskripsi:</label>
-                      <ReactQuill
-                        value={newProduct.description}
-                        onChange={(value) =>
-                          handleInputChange({
-                            target: {
-                              name: "description",
-                              value,
-                            },
-                          })
-                        }
-                        modules={modules}
-                        formats={formats}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Harga:</label>
-                      <input
-                        type="number"
-                        name="price"
-                        value={newProduct.price}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Stok:</label>
-                      <input
-                        type="number"
-                        name="stock"
-                        value={newProduct.stock}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Kategori:</label>
-                      <select
-                        name="id_category"
-                        value={newProduct.id_category}
-                        onChange={handleInputChange}
-                        className="form-control"
-                      >
-                        <option value="" disabled>
-                          Pilih Kategori
-                        </option>
-                        {categories.map((category) => (
-                          <option
-                            key={category.id_category}
-                            value={category.id_category}
-                          >
-                            {category.category_name}
+        <div
+          className="modal fade show"
+          style={{
+            display: "block",
+            paddingLeft: "17px",
+          }}
+        >
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Tambah Produk</h5>
+                <button
+                  type="button"
+                  className="close"
+                  onClick={closeCreateModal}
+                >
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div className={!file ? "col-12" : "col-lg-7"}>
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    <form>
+                      <div className="form-group">
+                        <label>Nama:</label>
+                        <input
+                          type="text"
+                          name="product_name"
+                          value={newProduct.product_name}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Deskripsi:</label>
+                        <ReactQuill
+                          value={newProduct.description}
+                          onChange={(value) =>
+                            handleInputChange({
+                              target: {
+                                name: "description",
+                                value,
+                              },
+                            })
+                          }
+                          modules={modules}
+                          formats={formats}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Harga:</label>
+                        <input
+                          type="number"
+                          name="price"
+                          value={newProduct.price}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Stok:</label>
+                        <input
+                          type="number"
+                          name="stock"
+                          value={newProduct.stock}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Kategori:</label>
+                        <select
+                          name="id_category"
+                          value={newProduct.id_category}
+                          onChange={handleInputChange}
+                          className="form-control"
+                        >
+                          <option value="" disabled>
+                            Pilih Kategori
                           </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Foto Produk:</label>
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        className="form-control-file"
+                          {categories.map((category) => (
+                            <option
+                              key={category.id_category}
+                              value={category.id_category}
+                            >
+                              {category.category_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Foto Produk:</label>
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-edit-admin"
+                        onClick={handleSubmitCreate}
+                      >
+                        Tambah Produk
+                      </button>
+                    </form>
+                  </div>
+                  {file && (
+                    <div className="col-lg-5">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt="Preview"
+                        className="img-fluid"
                       />
                     </div>
-                    <button
-                      type="button"
-                      className="btn btn-edit-admin"
-                      onClick={handleSubmitCreate}
-                    >
-                      Tambah Produk
-                    </button>
-                  </form>
+                  )}
                 </div>
-                {file && (
-                  <div className="col-lg-5">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="Preview"
-                      className="img-fluid"
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>

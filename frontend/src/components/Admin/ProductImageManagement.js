@@ -122,89 +122,99 @@ const ProductImageManagement = () => {
         </table>
       </div>
       {addModalOpen && (
-        <div className="modal-new">
-          <div className="modal-new-content-admin">
-            <div className="modal-header">
-              <h5 className="modal-title">Tambah Produk</h5>
-              <button type="button" className="close" onClick={closeAddModal}>
-                <span>&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="row">
-                <div className={!file ? "col-12" : "col-lg-7"}>
-                  {error && <div className="alert alert-danger">{error}</div>}
-                  <form>
-                    <div className="form-group">
-                      <label>Keterangan:</label>
-                      <input
-                        type="text"
-                        name="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Foto Produk:</label>
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        className="form-control-file"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className="btn btn-edit-admin"
-                      onClick={handleSubmit}
-                    >
-                      Tambah Foto
-                    </button>
-                  </form>
-                  <div className="list-group">
-                    {productsImage.map((img) => (
-                      <div
-                        key={img.id_image}
-                        className="list-group-item list-group-item-action d-flex gap-3 py-3"
-                      >
-                        <img
-                          src={`http://localhost:4000${img.image}`}
-                          alt="Product"
-                          width={128}
-                          height={128}
-                          className="flex-shrink-0"
+        <div
+          className="modal fade show"
+          style={{
+            display: "block",
+            paddingLeft: "17px",
+          }}
+        >
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Tambah Produk</h5>
+                <button type="button" className="close" onClick={closeAddModal}>
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div className={!file ? "col-12" : "col-lg-7"}>
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    <form>
+                      <div className="form-group">
+                        <label>Keterangan:</label>
+                        <input
+                          type="text"
+                          name="description"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          className="form-control"
                         />
-                        <div className="d-flex gap-2 w-100 justify-content-between align-items-center">
-                          <div>
-                            <h6 className="mb-0">
-                              <b>Keterangan</b>
-                            </h6>
-                            <p className="mb-0 opacity-75">{img.keterangan}</p>
-                          </div>
-                          <div className="d-flex align-items-center">
-                            <button
-                              className="btn btn-danger btn-sm"
-                              onClick={() =>
-                                handleDeleteImageProduct(img.id_image)
-                              }
-                            >
-                              Delete
-                            </button>
+                      </div>
+                      <div className="form-group">
+                        <label>Foto Produk:</label>
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          className="form-control"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-edit-admin"
+                        onClick={handleSubmit}
+                      >
+                        Tambah Foto
+                      </button>
+                    </form>
+                    <div className="list-group">
+                      {productsImage.map((img) => (
+                        <div
+                          key={img.id_image}
+                          className="list-group-item list-group-item-action d-flex gap-3 py-3"
+                        >
+                          <img
+                            src={`http://localhost:4000${img.image}`}
+                            alt="Product"
+                            width={128}
+                            height={128}
+                            className="flex-shrink-0"
+                          />
+                          <div className="d-flex gap-2 w-100 justify-content-between align-items-center">
+                            <div>
+                              <h6 className="mb-0">
+                                <b>Keterangan</b>
+                              </h6>
+                              <p className="mb-0 opacity-75">
+                                {img.keterangan}
+                              </p>
+                            </div>
+                            <div className="d-flex align-items-center">
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={() =>
+                                  handleDeleteImageProduct(img.id_image)
+                                }
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
+                  {file && (
+                    <div className="col-lg-5">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt="Preview"
+                        className="img-fluid"
+                      />
+                    </div>
+                  )}
                 </div>
-                {file && (
-                  <div className="col-lg-5">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="Preview"
-                      className="img-fluid"
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>

@@ -150,17 +150,6 @@
   border-radius: 3px;
 }
 
-.modal-new-content-admin {
-  background-color: #fefefe;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 1000px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Add position relative for the close button */
-}
-
 .btn-create-admin {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -178,7 +167,7 @@
   color: #fff;
 }
 
-.modal-new .btn-edit-admin {
+.btn-edit-admin {
   display: block;
   width: 100%;
   margin-top: 1rem;
@@ -192,11 +181,24 @@
   transition: background-color 0.3s ease;
 }
 
-.modal-new .btn-edit-admin:hover {
+.btn-edit-admin:hover {
   background-color: #294b29;
   color: #fff;
 }
 
 .table-admin p {
   margin-bottom: 0px;
+}
+
+.modal form label {
+  display: block;
+  margin: 1rem 0 0.5rem 0;
+  font-weight: bold;
+}
+
+.modal form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
