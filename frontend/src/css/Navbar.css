@@ -1,19 +1,7 @@
 /* Navbar styles */
-.navbar,
-.offcanvas {
-  background-color: #294b29;
-  color: white;
+.navbar {
+  border-bottom: 2px solid green;
 }
-
-.offcanvas-body {
-  background-color: #294b29;
-}
-
-.offcanvas-header {
-  color: white;
-  background-color: #294b29;
-}
-
 .navbar-brand {
   font-size: 1.5rem;
 }

@@ -6,7 +6,7 @@ import {
   faCartShopping,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import logo from "../images/logo.png";
+import logo from "../images/navbar.png";
 import "../css/Navbar.css";
 import {
   fetchProducts,
@@ -176,7 +176,7 @@ const Navbar = () => {
   // Return navbar
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
         <div className="container">
           <Link to="/" className="navbar-brand">
             <img
@@ -199,7 +199,7 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div
-            className="offcanvas offcanvas-end text-bg-dark"
+            className="offcanvas offcanvas-end"
             tabIndex="-1"
             id="offcanvasNavbar2"
             aria-labelledby="offcanvasNavbar2Label"
@@ -210,7 +210,7 @@ const Navbar = () => {
               </h5>
               <button
                 type="button"
-                className="btn-close btn-close-white"
+                className="btn-close"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               ></button>
@@ -334,7 +334,7 @@ const Navbar = () => {
                   <li className="nav-item">
                     <Link
                       to="/login"
-                      className="btn btn-outline-light ms-2 px-4"
+                      className="btn btn-outline-success ms-2 px-4"
                     >
                       Login
                     </Link>
