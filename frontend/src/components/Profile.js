@@ -36,6 +36,7 @@ const Profile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(value);
     setUserData({
       ...userData,
       [name]: value,
@@ -48,10 +49,24 @@ const Profile = () => {
   };
 
   const handleSubmit = () => {
-    if (!passwordRef.current.value) {
-      setError("Password harus diisi");
+    if (!passwordRef.current.value || !userData.no_hp || !userData.alamat) {
+      let errorMessage = "Form harus diisi: ";
+      if (!passwordRef.current.value) {
+        errorMessage += "Password, ";
+      }
+      if (!userData.no_hp) {
+        errorMessage += "No HP, ";
+      }
+      if (!userData.alamat) {
+        errorMessage += "Alamat, ";
+      }
+      // Remove the last comma and space
+      errorMessage = errorMessage.slice(0, -2);
+
+      setError(errorMessage);
       return;
     }
+
     const inputData = {
       username: userData.username,
       email: userData.email,
